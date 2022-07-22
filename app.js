@@ -25,6 +25,7 @@ require("./config/passport")(passport);
 // REQUIRE ROUTES
 const authRoutes = require("./routes/auth");
 const dashboardRoutes = require("./routes/dashboard");
+const projectRoutes = require("./routes/project");
 // --------------------- END OF IMPORTS ---------------------
 
 // --------------------- START OF TEMPLATING TOOLS ---------------------
@@ -99,6 +100,7 @@ app.use((req, res, next) => {
 // --------------------- START OF ROUTING ---------------------
 app.use("/auth", authRoutes);
 app.use("/dashboard", dashboardRoutes);
+app.use("/dashboard/projects", projectRoutes)
 // --------------------- END OF ROUTING ---------------------
 
 // --------------------- START OF HOME PAGE ROUTING ---------------------
