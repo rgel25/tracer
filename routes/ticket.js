@@ -16,21 +16,25 @@ router.get("/", (req, res) => {
     db.ticket.findAll({
         include: [
         {
-            model: db.project,
-            as : 'project'
-        },
-        {
-            model: db.reference_code,
-            as : 'ticketType'
-        },
-        {
-            model: db.reference_code,
-            as : 'ticketStatus'
-        },
-        {
-            model: db.reference_code,
-            as : 'ticketPriority'
+            model: db.ticket,
+            as : 'ticket',
+            include : [
+                {
+                    model: db.reference_code,
+                    as : 'ticketType'
+                },
+                {
+                    model: db.reference_code,
+                    as : 'ticketStatus'
+                },
+                {
+                    model: db.reference_code,
+                    as : 'ticketPriority'
+                }
+            ]
+
         }
+        
     ]
     }).then( tickets => {
         return res.render("pages/ticket/index", { user , tickets});
@@ -107,6 +111,8 @@ router.post("/comment/new", async (req, res) => {
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
     // const user = req.user;
     // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
+
+
     const user = {
         first_name: "argel",
         last_name: "miralles",
@@ -130,15 +136,17 @@ router.post("/assign/developer", async (req, res) => {
         first_name: "argel",
         last_name: "miralles",
     };
+    
+
     const userInfo = await db.user.findOne({ where : { id : req.body.developer } });
     const userName = userInfo.first_name + ' ' + userInfo.last_name
-    db.ticket_history.create({
+    await db.ticket_history.create({
         title : 'New Assigned Ticket Developer',
         description : userName,
         ticketId : req.body.ticketId,
         userId : req.body.userId
     })
-    db.ticket_asign_developer.create({
+    await db.ticket_asign_developer.create({
         userId : req.body.developer,
         ticketId : req.body.ticketId
     })
