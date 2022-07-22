@@ -1,0 +1,47 @@
+<%- layout('layout/dashboard') %>
+<div class="container col-lg-6 mt-3 p-3">
+    <div class="card shadow">
+        <div class="card-body">
+
+            <h4 class="card-title text-center fw-bold p-2">Update Project</h4>
+
+            <form action="/dashboard/projects/<%= projects[0].id %>/update?_method=PUT" method="POST">
+              <div class='form-group mb-3'>
+                  <label class="form-label">Project Name: </label>
+                  <input type="text" name="project_name" class="form-control" value="<%= projects[0].project_name %>" required/>
+              </div>
+              
+              <div class='form-group mb-3'>
+                  <label class="form-label">Description: </label>
+                  <input type="text" name="project_description" class="form-control" value="<%= projects[0].project_description %>" required/>
+              </div>
+              
+              <div class='form-group mb-3'>
+                  <label class="form-label">Start Date: </label>
+                  <input type="date" name="project_start" class="form-control" value="<%= projects[0].project_start %>" disabled/>
+              </div>
+        
+              <div class='form-group mb-3'>
+                  <label class="form-label">End Date: </label>
+                  <input type="date" name="project_end" class="form-control" value="<%= projects[0].project_end %>" required/>
+              </div>
+              
+              <div class='form-group mb-3'>
+                  <label class="form-label">Priority: </label>
+                  <select name="projectPriorityRefId" class="form-control" required>
+                      <option value="">Select Priority</option>
+                      <option value="pp1" <%= projects[0].projectPriorityRefId === "pp1" ? "selected" : "" %> >Urgent</option>
+                      <option value="pp2" <%= projects[0].projectPriorityRefId === "pp2" ? "selected" : "" %> >High</option>
+                      <option value="pp3" <%= projects[0].projectPriorityRefId === "pp3" ? "selected" : "" %> >Medium</option>
+                      <option value="pp4" <%= projects[0].projectPriorityRefId === "pp4" ? "selected" : "" %> >Low</option>
+                  </select>
+              </div>
+
+              <%- include("../../partials/flash") %>
+              
+              <button type="submit" class="btn btn-theme-dark form-control" >Update Project</button>
+            </form>
+        </div>
+      </div>
+    
+  </div>
