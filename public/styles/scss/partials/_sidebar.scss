@@ -8,6 +8,24 @@
   transition: all 0.2s;
 }
 
+@media only screen and (max-width: 992px) {
+  .sidebar {
+    width: 200px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .sidebar {
+    width: 175px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .sidebar {
+    background: blue;
+  }
+}
+
 .nav-link-with-logo {
   width: 100%;
   display: flex;

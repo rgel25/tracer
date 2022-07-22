@@ -95,6 +95,21 @@ body {
   transition: all 0.2s;
 }
 
+@media only screen and (max-width: 992px) {
+  .sidebar {
+    width: 200px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .sidebar {
+    width: 175px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .sidebar {
+    background: blue;
+  }
+}
 .nav-link-with-logo {
   width: 100%;
   display: flex;
@@ -150,6 +165,33 @@ body {
 
 .dashboard-contents-expanded {
   margin-left: 75px;
+}
+
+@media only screen and (max-width: 992px) {
+  .dashboard-contents {
+    margin-left: 200px;
+  }
+  .dashboard-contents-expanded {
+    margin-left: 75px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .dashboard-contents {
+    margin-left: 175px;
+  }
+  .dashboard-contents-expanded {
+    margin-left: 75px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .dashboard-contents {
+    margin-left: 200px;
+  }
+}
+.btn-with-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 nav {
