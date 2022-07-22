@@ -1,0 +1,107 @@
+<%- layout('layout/boilerplate') %>
+<div class="d-flex align-items-center justify-content-center sign-up-page">
+  <div class="card sign-up-page-card m-2">
+    <img
+      src="/images/tracer-dark.png"
+      class="card-img-top img-fluid sign-up-page-logo"
+      alt="tracer logo"
+    />
+    <div class="card-body">
+      <h5 class="card-title text-center">Create a new account</h5>
+      <form
+        class="pt-2 needs-validation"
+        novalidate
+        action="/auth/signup"
+        method="POST"
+      >
+        <div class="mb-1">
+          <label for="first-name" class="form-label"> First name </label>
+          <input
+            type="text"
+            class="form-control"
+            id="first-name"
+            autofocus
+            required
+            name="firstName"   
+            />
+        </div>
+        <div class="mb-1">
+          <label for="last-name" class="form-label"> Last name </label>
+          <input
+            type="text"
+            class="form-control"
+            id="last-name"
+            required
+            name="lastName"
+          />
+        </div>
+        <div class="mb-1">
+          <label for="signupEmail" class="form-label"> Email address </label>
+          <input
+            type="email"
+            class="form-control"
+            id="signupEmail"
+            aria-describedby="emailHelp"
+            required
+            name="email"
+          />
+        </div>
+        <div class="mb-1">
+          <label for="signupPassword" class="form-label"> Password </label>
+          <input
+            type="password"
+            class="form-control"
+            id="signupPassword"
+            required
+            name="password"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="signupPassword2" class="form-label">
+            Confirm password
+          </label>
+          <input
+            type="password"
+            class="form-control"
+            id="signupPassword2"
+            required
+            name="password2"
+          />
+        </div>
+        <%- include("../../partials/flash") %>
+        <!-- {error.length > 0 ? (
+            <div class="card-text">
+              <div
+                class="alert alert-danger alert-dismissible fade show"
+                role="alert"
+              >
+                {error.map((err, i) => (
+                  <small class="d-block" key={i}>
+                    {err.errorMsg}
+                  </small>
+                ))}
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close"
+                ></button>
+              </div>
+            </div>
+          ) : (
+            ""
+          )} -->
+        <div class="d-grid mb-1">
+          <button type="submit" class="btn btn-theme-dark">Sign up!</button>
+        </div>
+      </form>
+
+      <p class="card-text text-center">
+        Already have an account? Click
+        <a to="/auth/login" class="signup-login-link"> here </a>
+        to log in!
+      </p>
+    </div>
+  </div>
+</div>
+<script src="/js/validateForms.js"></script>

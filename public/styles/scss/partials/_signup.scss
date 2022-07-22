@@ -1,0 +1,20 @@
+.sign-up-page {
+  min-height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("../../images/landing-bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.sign-up-page-card {
+  width: 500px;
+}
+
+.sign-up-page-logo {
+  width: 300px;
+  margin: auto;
+}
+
+.login-signup-link {
+  color: var(--primary-dark-blue);
+}

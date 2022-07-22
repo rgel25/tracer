@@ -1,0 +1,17 @@
+.landing-page {
+  min-height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("../../images/landing-bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.landing-page-card {
+  text-align: center;
+  max-width: 500px;
+}
+
+.landing-page-logo {
+  width: 300px;
+  margin: auto;
+}

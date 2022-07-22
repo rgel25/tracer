@@ -1,0 +1,15 @@
+.dashboard-container {
+  height: 400vh;
+  position: relative;
+}
+
+.dashboard-contents {
+  margin-left: 269px;
+  background-color: #e7e9ec;
+  height: 100%;
+  transition: all 0.2s;
+}
+
+.dashboard-contents-expanded {
+  margin-left: 75px;
+}

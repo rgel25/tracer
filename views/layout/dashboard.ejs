@@ -1,0 +1,50 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tracer | Bug tracking made easy</title>
+    <!-- BOOTSTRAP CSS -->
+    <link rel="stylesheet" href="/styles/css/bootstrap.min.css" />
+    <!-- CSS FROM SASS COMPILATION -->
+    <link rel="stylesheet" href="/styles/css/style.css" />
+  </head>
+  <body>
+    <div class="min-vh-100 dashboard-container p-0">
+      <%- include('../partials/sidebar') %>
+      <div class="dashboard-contents">
+        <%- include('../partials/navbar') %> <%- body %>
+        <button
+          type="button"
+          class="btn btn-theme-dark btn-floating"
+          id="btn-back-to-top"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            fill="currentColor"
+            class="bi bi-arrow-up-short"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- BOOSTRAP JS -->
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="/js/validateForms.js"></script> -->
+    {{!--
+    <script>
+      const currentUser = <%-JSON.stringify(user)%>;
+    </script>
+    --}}
+
+    <script src="/js/scrollToTopBtn.js"></script>
+    <script src="/js/sidebarControl.js"></script>
+  </body>
+</html>

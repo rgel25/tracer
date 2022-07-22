@@ -1,0 +1,25 @@
+nav {
+  margin-top: -20px;
+  position: fixed;
+  top: 0;
+}
+
+#account-dropdown .dropdown-menu,
+#account-dropdown .dropdown-menu a {
+  color: var(--primary-dark-blue);
+}
+
+// #minimize-sidebar-btn-container {
+//   color: var(--primary-dark-blue);
+// }
+
+#minimize-sidebar-button {
+  color: var(--primary-dark-blue);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+// #account-dropdown:hover,
+// #account-dropdown:focus {
+//   border: none;
+// }

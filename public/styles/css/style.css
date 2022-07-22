@@ -1,0 +1,177 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  color: var(--primary-dark-blue);
+}
+
+.btn-theme-dark {
+  background-color: #263871;
+  color: #fff;
+}
+
+:root {
+  --primary-dark-blue: #191d43;
+}
+
+.landing-page {
+  min-height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../../images/landing-bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.landing-page-card {
+  text-align: center;
+  max-width: 500px;
+}
+
+.landing-page-logo {
+  width: 300px;
+  margin: auto;
+}
+
+.login-page {
+  min-height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../../images/landing-bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.login-page-card {
+  width: 500px;
+}
+
+.login-page-logo {
+  width: 300px;
+  margin: auto;
+}
+
+.signup-login-link {
+  color: var(--primary-dark-blue);
+}
+
+.sign-up-page {
+  min-height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../../images/landing-bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.sign-up-page-card {
+  width: 500px;
+}
+
+.sign-up-page-logo {
+  width: 300px;
+  margin: auto;
+}
+
+.login-signup-link {
+  color: var(--primary-dark-blue);
+}
+
+.sidebar {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: var(--primary-dark-blue);
+  width: 269px;
+  transition: all 0.2s;
+}
+
+.nav-link-with-logo {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.nav-link-with-logo svg {
+  margin-right: 10px;
+}
+
+.btn-toggle::after {
+  margin-left: auto;
+  text-align: end;
+  justify-self: flex-end;
+  width: 1.25em;
+  line-height: 0;
+  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%28255,255,255,1%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+  transition: transform 0.35s ease;
+  transform-origin: 0.5em 50%;
+}
+
+.btn-toggle[aria-expanded=true]::after {
+  transform: rotate(90deg);
+}
+
+.btn-toggle-side:hover,
+.btn-toggle-side:focus {
+  border: none;
+  background-color: transparent;
+}
+
+.btn-toggle-side {
+  border: none;
+  background-color: transparent;
+}
+
+.sidebar-minimized {
+  width: 75px;
+}
+
+.dashboard-container {
+  height: 400vh;
+  position: relative;
+}
+
+.dashboard-contents {
+  margin-left: 269px;
+  background-color: #e7e9ec;
+  height: 100%;
+  transition: all 0.2s;
+}
+
+.dashboard-contents-expanded {
+  margin-left: 75px;
+}
+
+nav {
+  margin-top: -20px;
+  position: fixed;
+  top: 0;
+}
+
+#account-dropdown .dropdown-menu,
+#account-dropdown .dropdown-menu a {
+  color: var(--primary-dark-blue);
+}
+
+#minimize-sidebar-button {
+  color: var(--primary-dark-blue);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#btn-back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none;
+}/*# sourceMappingURL=style.css.map */

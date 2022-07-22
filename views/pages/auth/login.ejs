@@ -1,0 +1,85 @@
+<%- layout('layout/boilerplate') %>
+
+<div class="d-flex align-items-center justify-content-center login-page">
+  <div class="card login-page-card m-2">
+    <img
+      src="/images/tracer-dark.png"
+      class="card-img-top img-fluid login-page-logo"
+      alt="tracer logo"
+    />
+    <div class="card-body">
+      <h5 class="card-title text-center">Login to your account</h5>
+      <form
+        class="pt-2 needs-validation"
+        novalidate
+        action="/auth/login"
+        method="POST"
+      >
+        <div class="mb-3">
+          <label for="loginEmail" class="form-label"> Email address </label>
+          <input
+            type="email"
+            class="form-control"
+            id="loginEmail"
+            autoFocus
+            required
+            name="email"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="loginPassword" class="form-label"> Password </label>
+          <input
+            type="password"
+            class="form-control"
+            id="loginPassword"
+            required
+            name="password"
+          />
+        </div>
+        <%- include("../../partials/flash") %>
+        <!-- {error.length > 0 ? (
+            <div class="card-text">
+              <div
+                class="alert alert-danger alert-dismissible fade show"
+                role="alert"
+              >
+                {error.map((err, i) => (
+                  <small class="d-block" key={i}>
+                    {err.errorMsg}
+                  </small>
+                ))}
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close"
+                ></button>
+              </div>
+            </div>
+          ) : (
+            ""
+          )} -->
+        <div class="d-grid mb-1">
+          <button type="submit" class="btn btn-theme-dark">Login</button>
+        </div>
+      </form>
+      <p class="card-text text-center">
+        No account yet? Click
+        <a href="/auth/signup" class="login-signup-link"> here </a>
+        to sign up!
+      </p>
+
+      <div class="d-grid mt-3">
+        <h5 class="card-title text-center">Demo Accounts</h5>
+        <button class="btn btn-theme-dark mb-2">Login as Admin</button>
+        <button class="btn btn-theme-dark mb-2">
+          Login as Project Manager
+        </button>
+        <button class="btn btn-theme-dark mb-2">Login as Developer</button>
+        <button class="btn btn-theme-dark mb-2">Login as CSR</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/validateForms.js"></script>
