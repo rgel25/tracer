@@ -42,7 +42,7 @@ module.exports.renderNewProjectForm = (req, res) => {
 }
 
 // Post | New project
-module.exports.newProject = (req, res) => {
+module.exports.newProject = async (req, res) => {
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
     // const user = req.user;
     // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
@@ -50,7 +50,7 @@ module.exports.newProject = (req, res) => {
         first_name: "argel",
         last_name: "miralles",
     };
-    db.project.create({
+    await db.project.create({
         project_name: req.body.project_name,
         project_description: req.body.project_description,
         project_start: req.body.project_start,
@@ -81,7 +81,7 @@ module.exports.renderUpdateProjectForm = (req, res) => {
 }
 
 // PUT | Update Project
-module.exports.updateProject = (req,res) => {
+module.exports.updateProject = async (req,res) => {
     const { id } = req.params;
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
     // const user = req.user;
@@ -91,7 +91,7 @@ module.exports.updateProject = (req,res) => {
         last_name: "miralles",
     };
 
-    db.project.update({
+    await db.project.update({
         project_name: req.body.project_name,
         project_description: req.body.project_description,
         project_start: req.body.project_start,
@@ -107,7 +107,7 @@ module.exports.updateProject = (req,res) => {
 
 
 //delete | delete project
-module.exports.deleteProject = (req,res) => {
+module.exports.deleteProject = async (req,res) => {
     const { id } = req.params;
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
     // const user = req.user;
@@ -117,7 +117,7 @@ module.exports.deleteProject = (req,res) => {
         last_name: "miralles",
     };
 
-    db.project.destroy({
+    await db.project.destroy({
         where: {
             id: id
         }
