@@ -17,10 +17,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    role: {
+    UserRoleRefId: {
       type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: "unassigned",
+      defaultValue: "ur1",
     },
   });
 
