@@ -92,27 +92,25 @@ module.exports.renderArchivedTicketPage = async (req, res) => {
     };
 
     const tickets = await db.ticket.findAll({
-        include: [
-        {
-            model: db.project,
-            as : 'project'
-        },
-        {
-            model: db.reference_code,
-            as : 'ticketType'
-        },
-        {
-            model: db.reference_code,
-            as : 'ticketStatus'
-        },
-        {
-            model: db.reference_code,
-            as : 'ticketPriority'
-        }]
-    },{
-        where : {
-            ticketStatusRefId : 'ts5'
-        }
+        where : { ticketStatusRefId : 'ts5' },
+        include : [
+            {
+                model: db.project,
+                as : 'project'
+            },
+            {
+                model: db.reference_code,
+                as : 'ticketType'
+            },
+            {
+                model: db.reference_code,
+                as : 'ticketStatus'
+            },
+            {
+                model: db.reference_code,
+                as : 'ticketPriority'
+            }
+        ]
     })
 
     return res.render("pages/ticket/archivedTickets", { user , tickets});

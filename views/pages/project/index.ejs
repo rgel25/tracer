@@ -2,22 +2,20 @@
 
   <div class="container col-lg-10 mt-3 p-3">
     <%- include("../../partials/flash") %>
+    <div class="row">
+      <div class="col-6">
+          <h4 class=" fw-bold p-2">Projects</h4>
+      </div>
+      <div class="col-6 text-end mb-3">
+            <a href="/dashboard/projects/new" class="btn btn-theme-dark align-center">
+              Add Project 
+            </a>
+      </div>
+    </div>
     <div class="card shadow">
       <div class="card-body">
-        <div class="row">
-          <div class="col-4">
-            <h4 class="card-title fw-bold p-2">Project List</h4>
-          </div>
-          <div class='col-2 offset-6'>
-            <a href="/dashboard/projects/new">
-              <button type="button" class="btn btn-theme-dark align-center">
-                Add Project 
-              </button>
-            </a>
-          </div>
-          
-        </div>
-        <table class='table table-hover table-bordered align-middle'>
+        <div class="table-responsive">
+          <table class='table table-hover table-bordered table-bordered align-middle' id="myTable">
             <thead class='align-middle'>
                 <tr>
                     <th>Name</th>
@@ -88,6 +86,8 @@
       
             </tbody>
         </table>
+        </div>
+        
       </div>
     </div>
     
@@ -145,3 +145,10 @@
 
 
 </div>
+
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+    integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
+    crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/plugins/DataTables/datatables.min.js"></script>
+    <script src="/js/ticket.js"></script>
