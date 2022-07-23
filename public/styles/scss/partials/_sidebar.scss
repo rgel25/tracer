@@ -21,9 +21,6 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .sidebar {
-    background: blue;
-  }
 }
 
 .nav-link-with-logo {
@@ -73,4 +70,19 @@
 
 .sidebar-minimized {
   width: 75px;
+}
+
+.sidebar-mobile {
+  display: block !important;
+  width: 100vw;
+  height: 100%;
+  padding-right: 40px !important;
+  z-index: 999;
+
+  .sidebar-img {
+    text-align: center;
+    img {
+      max-width: 200px;
+    }
+  }
 }

@@ -19,6 +19,11 @@ nav {
   transition: all 0.2s;
 }
 
+@media only screen and (min-width: 576px) {
+  .navbar-toggler {
+    display: none;
+  }
+}
 // #account-dropdown:hover,
 // #account-dropdown:focus {
 //   border: none;
