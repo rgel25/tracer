@@ -1,27 +1,76 @@
 <%- layout('layout/dashboard') %>
-
-<div class='container mt-5'>
+<div class="p-3">
+  <div class='container mt-5'>
     <div class='row'>
         <div class="card col-lg-3 text-start shadow">
-            <div class='card-header'>
-                <h2 class="card-title">Project Details</h2>
-                </div>
                 <div class="card-body">
+                  <h2 class="card-title"><%= projects.project_name %></h2>
+                  <hr>
+                  <h4>Project Details</h4>
                     <div class="card-text pt-4">
-                        <p>Project Name: <%= projects[0].project_name %></p>
-                        <p>Description: <%= projects[0].project_description %></p>
-                        <p>Start Date: <%= projects[0].project_start %></p>
-                        <p>Deadline: <%= projects[0].project_end %></p>
-                        <p>Priority: <%= projects[0].projectPriority.name %></p>
+                      <div class="row">
+                        <div class="col">
+                          <b>Project Manager:</b>  
+                        </div>
+                        <div class="col">
+                          <p>Demo Project Manager</p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <b>Description:</b>  
+                        </div>
+                        <div class="col">
+                          <p><%= projects.project_description %></p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <b>Start Date:</b>  
+                        </div>
+                        <div class="col">
+                          <p> <%= projects.project_start %></p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <b>Deadline:</b>  
+                        </div>
+                        <div class="col">
+                          <p> <%= projects.project_end %></p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <b>Priority: </b>  
+                        </div>
+                        <div class="col">
+                          <% if (projects.projectPriority.name === 'Urgent') { %>
+                            <span class="badge bg-danger p-2 px-4" ><%= projects.projectPriority.name %></span>
+                          <% } else if (projects.projectPriority.name === 'High') { %> 
+                            <span class="badge bg-warning p-2 px-4" ><%= projects.projectPriority.name %></span>
+                          <% } else if (projects.projectPriority.name === 'Medium') { %> 
+                            <span class="badge bg-primary p-2 px-4" ><%= projects.projectPriority.name %></span>
+                          <% } else { %> 
+                            <span class="badge bg-success p-2 px-4" ><%= projects.projectPriority.name %></span>
+                          <% }  %> 
+                        </div>
+                      </div>
+                      <div class="row mt-5">
+                        <a href='/dashboard/projects' class="btn btn-theme-dark">Go Back</a>
+                      </div>
+                      
                     </div>
-                    <a href='/dashboard/projects' class="btn btn-theme-dark">Go Back</a>
+                    
                 </div>
             </div>
 
+            
+
         <div class='col-lg-9'>
             <div class='card shadow'>
-                <div class='card-body'>
-                <table class='table table-hover  align-middle'>
+                <div class='card-body table-responsive'>
+                <table class='table table-hover align-middle'>
                     <thead class='align-middle'>
                         <tr>
                             <th class='p-3'>Ticket Title</th>
@@ -32,7 +81,7 @@
                         </tr>
                     </thead>
                     <tbody >
-                        <% projects[0].tickets.forEach(ticket => { %> 
+                        <% projects.tickets.forEach(ticket => { %> 
                             <tr> 
                                 <td><%= ticket.title %> </td>
                                 <td><%= ticket.ticketType.name%> </td>
@@ -96,4 +145,5 @@
         </div>
     </div>
         
+</div>
 </div>

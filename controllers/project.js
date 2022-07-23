@@ -7,23 +7,50 @@ module.exports.projects = async (req, res) => {
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
   // const user = req.user;
   // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
+    
     const user = {
         first_name: "argel",
         last_name: "miralles",
     };
-    const projects = await db.project.findAll({
-    include: [
-        db.ticket,
-        {
-            model: db.reference_code,
-            as : 'projectPriority'
-        }
-    ],
+
+
+    const pageAsNumber = Number.parseInt(req.query.page);
+    const sizeAsNumber = Number.parseInt(req.query.size);
+
+    let page = 1; 
+    if (!Number.isNaN(pageAsNumber) && pageAsNumber > 0 && pageAsNumber){
+        page = pageAsNumber;
+    }
+
+    let size = 5;
+    if(!Number.isNaN(sizeAsNumber) && sizeAsNumber> 0 && sizeAsNumber < 5){
+        size = sizeAsNumber
+    }
+
+    let projects = await db.project.findAndCountAll({
+        include: [
+            {
+                model: db.ticket,
+                as: 'tickets'
+            },
+            {
+                model: db.reference_code,
+                as : 'projectPriority'
+            }
+        ],
         where: {
             projectStatusRefId: "ps1"
-        }
+        },
+        offset: (page -1) * size,
+        limit: size
     })
-    return res.render("pages/project/index", { user , projects })
+    const totalPages = Math.ceil(projects.count / size);
+
+    // console.log(projects.count);
+    // console.log(Math.ceil(projects.count / size))
+    // console.log(rows)
+    // res.send({projects: projects.rows , currentPage: page, totalPages})
+    return res.render("pages/project/index", { user , projects: projects.rows , currentPage: page, totalPages })
     // .then(projects => {
     // return res.render("pages/project/index", { user , projects })
     // })
@@ -137,7 +164,7 @@ module.exports.viewProject = (req, res) => {
         first_name: "argel",
         last_name: "miralles",
     };
-    db.project.findAll({
+    db.project.findOne({
         include: [
             { 
                 model: db.ticket,
@@ -167,6 +194,54 @@ module.exports.viewProject = (req, res) => {
             id: id,
         }
     }).then(projects => {
+        console.log(projects)
         return res.render("pages/project/viewProject",  { user , projects });
 })
+}
+
+
+//get all project archived
+module.exports.archivedProjects = async (req, res) => {
+    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
+  // const user = req.user;
+  // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
+    const user = {
+        first_name: "argel",
+        last_name: "miralles",
+    };
+    const projects = await db.project.findAll({
+    include: [
+        db.ticket,
+        {
+            model: db.reference_code,
+            as : 'projectPriority'
+        }
+    ],
+        where: {
+            projectStatusRefId: "ps3"
+        }
+    })
+    return res.render("pages/project/archivedProject", { user , projects })
+};
+
+// archive specific project
+
+module.exports.archiveProject = async (req,res) => {
+    const { id } = req.params;
+    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
+    // const user = req.user;
+    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
+    const user = {
+        first_name: "argel",
+        last_name: "miralles",
+    };
+
+    await db.project.update({
+        projectStatusRefId: "ps3"
+    }, {
+        where: {
+            id: id
+        }
+    });
+    return res.redirect("/dashboard/projects");
 }

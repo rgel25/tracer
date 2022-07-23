@@ -1,0 +1,85 @@
+<%- layout('layout/dashboard') %>
+
+  <div class="container col-lg-10 mt-3 p-3">
+    <div class="card shadow">
+      <div class="card-body table-responsive-lg">
+        <div class="row">
+          <div class="col-4">
+            <h4 class="card-title fw-bold p-2">Archived Projects</h4>
+          </div>
+          
+        </div>
+        <table class='table table-hover table-bordered align-middle'>
+            <thead class='align-middle'>
+                <tr>
+                    <th>Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Priority</th>
+                    <th class='col-1 text-center'>Ticket Count</th>
+                    <th class='col-2 text-center'>Details</th>
+                </tr>
+            </thead>
+            <tbody >
+                <% projects.forEach(proj => { %>
+                  <tr>
+                    <td><a href="/dashboard/projects/<%= proj.id %>/view" class="text-decoration-none text-dark"><%= proj.project_name %></a></td>
+                    <td><%= proj.project_start %> </td>
+                    <td><%= proj.project_end %> </td>
+                    <td><%= proj.projectPriority.name %> </td>
+                    <td class='text-center'><%= proj.tickets.length %></td>
+                    <td class='text-center'>    
+                      <a href="/dashboard/projects/<%= proj.id %>/view"><i class="bi bi-eye-fill text-primary fs-4 pe-1"></i></a>
+                      <a data-bs-toggle="modal" data-bs-target="#deleteModalProjectID<%=proj.id%>"><i class="bi bi-trash3-fill text-danger fs-4 pe-1" id="deleteButton"></i></a>
+                  </td>
+                  </tr>
+
+                  <!-- modal -->
+                  <div
+                    class="modal fade"
+                    id="deleteModalProjectID<%=proj.id%>"
+                    tabindex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                  >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                          Confirm Delete
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        Are you sure you want to permanently delete this project?
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <form
+                          class="d-inline"
+                          action="/dashboard/projects/<%=proj.id%>/delete?_method=DELETE"
+                          method="POST"
+                        >
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                <% }) %> 
+      
+            </tbody>
+        </table>
+      </div>
+    </div>
+    
+
+
+</div>

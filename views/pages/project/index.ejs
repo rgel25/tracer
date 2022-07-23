@@ -1,30 +1,27 @@
 <%- layout('layout/dashboard') %>
 
   <div class="container col-lg-10 mt-3 p-3">
-    <%- include("../../partials/flash") %>
     <div class="card shadow">
       <div class="card-body">
         <div class="row">
-          <div class="col-4">
-            <h4 class="card-title fw-bold p-2">Project List</h4>
+          <div class="col-lg-4">
+            <h4 class="card-title fw-bold p-2">Project List </h4>
           </div>
-          <div class='col-2 offset-6'>
-            <a href="/dashboard/projects/new">
-              <button type="button" class="btn btn-theme-dark align-center">
-                Add Project 
-              </button>
+          <div class='col-lg-2 offset-lg-6'>
+            <a href="/dashboard/projects/new" class="btn btn-theme-dark btn-with-logo my-2 my-md-0">
+              <i class="bi bi-plus-lg pe-1"></i>
+                New Project 
             </a>
           </div>
-          
         </div>
-        <table class='table table-hover table-bordered align-middle'>
+        <div class="table-responsive">
+          <table class='table table-hover align-middle'>
             <thead class='align-middle'>
                 <tr>
                     <th>Name</th>
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th>Priority</th>
-                    <th>Team</th>
                     <th class='col-1 text-center'>Ticket Count</th>
                     <th class='col-2 text-center'>Details</th>
                 </tr>
@@ -36,19 +33,18 @@
                     <td><%= proj.project_start %> </td>
                     <td><%= proj.project_end %> </td>
                     <td><%= proj.projectPriority.name %> </td>
-                    <td><i class="bi bi-people fs-4"></i></td>
                     <td class='text-center'><%= proj.tickets.length %></td>
                     <td class='text-center'>    
                       <a href="/dashboard/projects/<%= proj.id %>/view"><i class="bi bi-eye-fill text-primary fs-4 pe-1"></i></a>
                       <a href="/dashboard/projects/<%= proj.id %>/update"><i class="bi bi-pencil-square text-warning fs-4 pe-1"></i></a>
-                      <a data-bs-toggle="modal" data-bs-target="#deleteModalProjectID<%=proj.id%>"><i class="bi bi-trash3-fill text-danger fs-4 pe-1" id="deleteButton"></i></a>
+                      <a data-bs-toggle="modal" data-bs-target="#archiveModalProjectID<%=proj.id%>"><i class="bi bi-trash3-fill text-danger fs-4 pe-1" id="deleteButton"></i></a>
                   </td>
                   </tr>
 
                   <!-- modal -->
                   <div
                     class="modal fade"
-                    id="deleteModalProjectID<%=proj.id%>"
+                    id="archiveModalProjectID<%=proj.id%>"
                     tabindex="-1"
                     aria-labelledby="exampleModalLabel"
                     aria-hidden="true"
@@ -79,69 +75,72 @@
                         </button>
                         <form
                           class="d-inline"
-                          action="/dashboard/projects/<%=proj.id%>/delete?_method=DELETE"
+                          action="/dashboard/projects/<%=proj.id%>/archive?_method=PUT"
                           method="POST"
                         >
                           <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
-                <% }) %> 
-      
+                <% }) %>   
             </tbody>
-        </table>
+          </table>      
+        </div>
+        <div class="row p-3">
+            <ul class="pagination">
+              <% if(projects.length > 1) { %> 
+              <% if(currentPage === 1) { %> 
+              <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <% } else { %> 
+                <li class="page-item">
+                  <a class="page-link" href="/dashboard/projects?page=<%= currentPage - 1 %>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+              <% } %> 
+              
+              
+              <% var i = (Number(currentPage) > 5 ? Number(currentPage) - 4 : 1) %>
+              <% if (i !== 1) { %>
+                  <li class="disabled"><a>...</a></li>
+              <% } %>
+              <% for (; i <= (Number(currentPage) + 4) && i <= totalPages; i++) { %>
+                  <% if (i == currentPage) { %>
+                    <li class="page-item active" ><a class="page-link" href="/dashboard/projects?page=<%= i %>"><%= currentPage %> </a></li>
+                  <% } else { %>
+                    <li class="page-item" ><a class="page-link" href="/dashboard/projects?page=<%= i %>"><%= i %> </a></li>
+                  <% } %>
+                  <% if (i == Number(currentPage) + 4 && i < totalPages) { %>
+                    <li class="page-item" ><a class="page-link" href="#">...</a></li>
+                  <% } %>
+              <% } %>
+              <% if (currentPage == totalPages) { %>
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              <% } else { %>
+                <li class="page-item">
+                  <a class="page-link" href="/dashboard/projects?page=<%= currentPage + 1 %>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              <% } %>
+              <% } else { %>
+                <li class="row offset-3 text-center">
+                  <h2>No Project Found</h2> 
+                  <span><a href="/dashboard/projects?page=1" class="text-decoration-none btn btn-theme-dark mt-3">Go Back</a></span>
+                </li>
+              <% } %> 
+
+            </ul>
+        </div>
       </div>
     </div>
     
-
-    <!-- <div class='d-flex mb-3'>
-        {/* <input type='text' class='col-2' placeholder='search...' onChange={handleSearch} /> */}
-        <div class='col-3 offset-3'><h1>Project List</h1></div>
-        <Link to='/projects/new' class='col-2 offset-2'><button type="button" class="btn btn-outline-info btn-lg">Add Project</button></Link>
-    </div>
-
-
-    <div class='row'>
-        <div class='col-2'>
-          <select name="project_priority" class="form-control" onChange={handleFilter} required>
-              <option value="">Filter Priority</option>
-              <option value="Urgent">Urgent</option>
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
-          </select>
-        </div>
-        <div class='col-2'>
-          <select name="project_priority" class="form-control" onChange={handleSort} required>
-              <option value="">Sort by</option>
-              <option value="nameUp">Name (A to Z)</option>
-              <option value="nameDown">Name (Z to A)</option>
-              <option value="priorityUp">Priority (A to Z)</option>
-              <option value="priorityDown">Priority (Z to A)</option>
-          </select>
-        </div>
-    </div>
-
-<ProjectTable data={currentProject}/>
-{/* {currentProject.length > 1 ? (
-  <Pagination 
-  projectPerPage={projectPerPage} 
-  totalProjects={projectList.length} 
-  paginate={paginate}
-  handlePreviousPage={handlePreviousPage}
-  handleNextPage={handleNextPage}
-  currentPage={currentPage} 
-        />
-) : (
-  ""
-)} */}
-
-<Pagination2 
-  itemsPerPage={projectPerPage} 
-  totalItems={filteredProjects.length} 
-  paginate={paginate}
-  handlePreviousPage={handlePreviousPage}
-  handleNextPage={handleNextPage}
-  currentPage={currentPage} 
-        /> -->
 
 
 </div>

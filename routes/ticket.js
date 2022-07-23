@@ -39,6 +39,47 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/search", (req, res) => {
+  // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
+  // const user = req.user;
+  // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
+  const user = {
+    first_name: "argel",
+    last_name: "miralles",
+  };
+
+  db.ticket
+    .findAll({
+      include: [
+        {
+          model: db.project,
+          as: "project",
+        },
+        {
+          model: db.reference_code,
+          as: "ticketType",
+        },
+        {
+          model: db.reference_code,
+          as: "ticketStatus",
+        },
+        {
+          model: db.reference_code,
+          as: "ticketPriority",
+        },
+      ],
+      // where: {
+      //   id: req.query.ticketID
+      // }
+      where: {
+        title: { [Op.like]: '%' + req.query.ticketID.toLowerCase() + '%'}
+      }
+    })
+    .then((tickets) => {
+      return res.render("pages/ticket/index", { user, tickets });
+    });
+});
+
 // Get Ticket Details
 router.get("/details/:id", async (req, res) => {
   // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
