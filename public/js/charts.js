@@ -1,9 +1,20 @@
+const projectLabels = [];
+const projectData = [];
+projects.forEach((project) => {
+  // GET ALL PROJECT NAMES
+  projectLabels.push(project.project_name);
+  //   GET ALL TICKETS RELATED TO PRORJECTS AND PUSH TO PROJECT DATA
+  projectData.push(
+    tickets.filter((ticket) => ticket.projectId === project.id).length
+  );
+});
+
 const data1 = {
-  labels: ["Talently", "Tracer", "PSStudios"],
+  labels: projectLabels,
   datasets: [
     {
-      label: "My First Dataset",
-      data: [88, 50, 22],
+      label: "Tickets by project",
+      data: projectData,
       backgroundColor: ["#008DA6", "#00406C", "#00668E"],
       hoverOffset: 4,
     },
@@ -24,12 +35,34 @@ const myChart = new Chart(document.getElementById("chart1"), config1);
 // #00B4B3
 // #65DBB7
 
+const unassignedTickets = tickets.filter(
+  (t) => t.ticketStatus.ref_id === "ts1"
+).length;
+const assignedTickets = tickets.filter(
+  (t) => t.ticketStatus.ref_id === "ts2"
+).length;
+const testingTickets = tickets.filter(
+  (t) => t.ticketStatus.ref_id === "ts3"
+).length;
+const closedTickets = tickets.filter(
+  (t) => t.ticketStatus.ref_id === "ts4"
+).length;
+const archivedTickets = tickets.filter(
+  (t) => t.ticketStatus.ref_id === "ts5"
+).length;
+
 const data2 = {
   labels: ["Unassigned", "Assigned", "Testing", "Closed", "Archived"],
   datasets: [
     {
-      label: "My First Dataset",
-      data: [20, 5, 3, 15, 23],
+      label: "Ticket by status",
+      data: [
+        unassignedTickets,
+        assignedTickets,
+        testingTickets,
+        closedTickets,
+        archivedTickets,
+      ],
       backgroundColor: ["#008DA6", "#00406C", "#00668E", " #00B4B3", "#65DBB7"],
       hoverOffset: 4,
     },
@@ -43,12 +76,28 @@ const config2 = {
 };
 const chart2 = new Chart(document.getElementById("chart2"), config2);
 
+const maintenanceTickets = tickets.filter(
+  (t) => t.ticketType.ref_id === "tt1"
+).length;
+const uiTickets = tickets.filter((t) => t.ticketType.ref_id === "tt2").length;
+const runtimeTickets = tickets.filter(
+  (t) => t.ticketType.ref_id === "tt3"
+).length;
+const newdevelopmentTickets = tickets.filter(
+  (t) => t.ticketType.ref_id === "tt4"
+).length;
+
 const data3 = {
   labels: ["Maintenance", "UI", "Runtime", "New Development"],
   datasets: [
     {
-      label: "My First Dataset",
-      data: [15, 45, 30, 5],
+      label: "Ticket by type",
+      data: [
+        maintenanceTickets,
+        uiTickets,
+        runtimeTickets,
+        newdevelopmentTickets,
+      ],
       backgroundColor: ["#008DA6", "#00406C", "#00668E", " #00B4B3", "#65DBB7"],
       hoverOffset: 4,
     },
@@ -62,12 +111,25 @@ const config3 = {
 };
 const chart3 = new Chart(document.getElementById("chart3"), config3);
 
+const urgentTickets = tickets.filter(
+  (t) => t.ticketPriority.ref_id === "tp1"
+).length;
+const highTickets = tickets.filter(
+  (t) => t.ticketPriority.ref_id === "tp2"
+).length;
+const mediumTickets = tickets.filter(
+  (t) => t.ticketPriority.ref_id === "tp3"
+).length;
+const lowTickets = tickets.filter(
+  (t) => t.ticketPriority.ref_id === "tp4"
+).length;
+
 const data4 = {
   labels: ["Urgent", "High", "Medium", "Low"],
   datasets: [
     {
-      label: "My First Dataset",
-      data: [3, 12, 22, 26],
+      label: "Ticket by Priority",
+      data: [urgentTickets, highTickets, mediumTickets, lowTickets],
       backgroundColor: ["#008DA6", "#00406C", "#00668E", " #00B4B3", "#65DBB7"],
       hoverOffset: 4,
     },

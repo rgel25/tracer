@@ -137,6 +137,7 @@ INSERT INTO `reference_codes` VALUES
 ('ur2','Project Manager',2,'User Role','ur','2022-07-18 17:52:30','2022-07-18 09:52:30'),
 ('ur3','Developer',3,'User Role','ur','2022-07-18 17:52:30','2022-07-18 09:52:30'),
 ('ur4','Submitter',4,'User Role','ur','2022-07-18 17:52:30','2022-07-18 09:52:30');
+('ur5','Unassigned',4,'User Role','ur','2022-07-18 17:52:30','2022-07-18 09:52:30');
 
 -- projects
 INSERT INTO `projects` VALUES 

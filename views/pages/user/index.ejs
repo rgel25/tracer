@@ -1,0 +1,34 @@
+<%- layout('layout/dashboard') %>
+
+<div class="p-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <%- include('../../partials/flash')%>
+        </div>
+    </div>
+  <% users.forEach(user=>{ %>
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card p-4 mb-3" style="width: 100%">
+        <div class="card-body">
+          <h4 class="card-title">User: <%= user.first_name %> <%= user.last_name%> </h4>
+           <form action="/dashboard/user?_method=PATCH" method="POST">
+            <div class="mb-3">
+                <input type="hidden" name="id" value="<%= user.id%>">
+              <label for="role" class="form-label">Assign Role</label>
+              <select class="form-select" id="role" name="role">
+                <% roles.forEach(role => { %>
+                <option <%=user.userRoleRefId === role.code ? "selected" :"" %>  value="<%= role.code %>"><%= role.name%></option>
+                <%}); %>
+              </select>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-theme-dark">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% }) %>
+</div>
