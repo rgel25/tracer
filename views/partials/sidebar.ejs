@@ -1,12 +1,25 @@
-<div class="d-flex flex-column flex-shrink-0 p-3 sidebar" id="sidebar">
-  <a
-    href="/"
-    class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
-  >
-    <div class="container p-3">
-      <img src="/images/tracer-light.png" alt="tracer logo" class="img-fluid" />
-    </div>
-  </a>
+<div
+  class="d-flex flex-column flex-shrink-0 p-3 sidebar d-none d-sm-block"
+  id="sidebar"
+>
+  <div class="unexpand-sidebar-btn-container d-none text-white text-end">
+    <svg
+      id="unexpand-sidebar-button"
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      fill="currentColor"
+      class="bi bi-x-lg"
+      viewBox="0 0 16 16"
+    >
+      <path
+        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"
+      />
+    </svg>
+  </div>
+  <div class="container p-3 sidebar-img">
+    <img src="/images/tracer-light.png" alt="tracer logo" class="img-fluid" />
+  </div>
   <hr class="border border-1" />
   <div class="container text-center text-white">
     <%= user.first_name %> <%= user.last_name %>
@@ -15,7 +28,7 @@
   <hr class="border border-1" />
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
-      <a href="#" class="nav-link text-white nav-link-with-logo">
+      <a href="/dashboard" class="nav-link text-white nav-link-with-logo">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -38,7 +51,7 @@
       </a>
     </li>
     <li>
-      <a href="#" class="nav-link text-white nav-link-with-logo">
+      <a href="/auth/login" class="nav-link text-white nav-link-with-logo">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -78,12 +91,16 @@
       <div class="collapse" id="projects-collapse" data-parent="#sidebar">
         <ul class="fw-normal pb-1 text-white">
           <li class="mx-4 my-1">
-            <a href="/dashboard/projects" class="text-white text-decoration-none rounded"
+            <a
+              href="/dashboard/projects"
+              class="text-white text-decoration-none rounded"
               >All Projects</a
             >
           </li>
           <li class="mx-4 my-1">
-            <a href="/dashboard/projects/new" class="text-white text-decoration-none rounded"
+            <a
+              href="/dashboard/projects/new"
+              class="text-white text-decoration-none rounded"
               >Add Projects</a
             >
           </li>
