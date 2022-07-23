@@ -102,9 +102,9 @@ app.use((req, res, next) => {
 // --------------------- START OF ROUTING ---------------------
 app.use("/auth", authRoutes);
 app.use("/dashboard", dashboardRoutes);
-app.use("/dashboard/projects", projectRoutes);
-app.use("/ticket", ticketRoutes);
 app.use("/dashboard/user", userRoutes);
+app.use("/dashboard/projects", projectRoutes);
+app.use("/dashboard/ticket", ticketRoutes);
 // --------------------- END OF ROUTING ---------------------
 
 // --------------------- START OF HOME PAGE ROUTING ---------------------

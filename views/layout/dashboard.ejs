@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tracer | Bug tracking made easy</title>
     <!-- BOOTSTRAP CSS -->
+    <link rel="stylesheet" type="text/css" href="/plugins/DataTables/datatables.min.css"/>
     <link rel="stylesheet" href="/styles/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <!-- CSS FROM SASS COMPILATION -->
     <link rel="stylesheet" href="/styles/css/style.css" />
+    
 
   </head>
   <body>
@@ -47,8 +49,8 @@
     <script>
       const currentUser = <%-JSON.stringify(user)%>;
     </script>
-   
 
+    
     <script src="/js/scrollToTopBtn.js"></script>
     <script src="/js/sidebarControl.js"></script>
   </body>

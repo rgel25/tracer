@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
         
     }
 
+    // projectOwner = assigned project manager
+            // default unassigned
+            
+    // projectTeam = assigned team
     
     
         

@@ -49,7 +49,7 @@
                        
                     </dl>
                     <label for="developer" className="form-label">Select Developer</label>
-                    <form action="/ticket/assign/developer" method="POST">
+                    <form action="/dashboard/ticket/assign/developer" method="POST">
                      <select name="developer" id="developer" className="form-control" required> 
                         <option value="">Select Developer</option>
                         <% developer.forEach(dev => { %>
@@ -97,7 +97,7 @@
                     <h3 class='text-white'>Ticket Comment</h3>
                  </div>
                  <div class="card-body">
-                    <form action="/ticket/comment/new" method="POST">
+                    <form action="/dashboard/ticket/comment/new" method="POST">
                        <div class="mb-3">
                           <label for="comment" class="form-label">Add Comment</label>
                           <textarea class="form-control" name="comment" id="comment" rows="3"></textarea>
@@ -117,7 +117,7 @@
                               <p><%- comment.comment %> </p>
                               <span class="text-muted">
                                 by : <%- comment.user.first_name %> <%- comment.user.last_name %><br>
-                                on : <%- comment.user.createdAt %>
+                                on : <%- comment.createdAt %>
                               </span>
                            </div>
                         <% }) %>
@@ -135,7 +135,15 @@
                     <h3 class="text-white">Ticket History</h3>
                  </div>
                  <div class="card-body">
-                    
+                  <% ticketHistory.forEach(history => { %>
+                     <div class="card p-2">
+                        <p><%- history.title %> : <span class="text-muted"><%- history.description %></span></p>
+                        <span class="text-muted">
+                           by : <%- history.user.first_name %> <%- history.user.last_name %><br>
+                           on : <%- history.createdAt %>
+                        </span>
+                     </div>
+                  <% }) %>
                  </div>
               </div>
            </div>

@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
          },
          projectId : {
             type : DataTypes.INTEGER
+         },
+         ticketStatusRefId : {
+            type : DataTypes.STRING,
+            defaultValue : 'ts1'
          }
    });
 
