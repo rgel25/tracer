@@ -7,50 +7,23 @@ module.exports.projects = async (req, res) => {
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
   // const user = req.user;
   // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    
     const user = {
         first_name: "argel",
         last_name: "miralles",
     };
-
-
-    const pageAsNumber = Number.parseInt(req.query.page);
-    const sizeAsNumber = Number.parseInt(req.query.size);
-
-    let page = 1; 
-    if (!Number.isNaN(pageAsNumber) && pageAsNumber > 0 && pageAsNumber){
-        page = pageAsNumber;
-    }
-
-    let size = 5;
-    if(!Number.isNaN(sizeAsNumber) && sizeAsNumber> 0 && sizeAsNumber < 5){
-        size = sizeAsNumber
-    }
-
-    let projects = await db.project.findAndCountAll({
-        include: [
-            {
-                model: db.ticket,
-                as: 'tickets'
-            },
-            {
-                model: db.reference_code,
-                as : 'projectPriority'
-            }
-        ],
+    const projects = await db.project.findAll({
+    include: [
+        db.ticket,
+        {
+            model: db.reference_code,
+            as : 'projectPriority'
+        }
+    ],
         where: {
             projectStatusRefId: "ps1"
-        },
-        offset: (page -1) * size,
-        limit: size
+        }
     })
-    const totalPages = Math.ceil(projects.count / size);
-
-    // console.log(projects.count);
-    // console.log(Math.ceil(projects.count / size))
-    // console.log(rows)
-    // res.send({projects: projects.rows , currentPage: page, totalPages})
-    return res.render("pages/project/index", { user , projects: projects.rows , currentPage: page, totalPages })
+    return res.render("pages/project/index", { user , projects })
     // .then(projects => {
     // return res.render("pages/project/index", { user , projects })
     // })
@@ -129,7 +102,7 @@ module.exports.updateProject = async (req,res) => {
             id : id
         }
     });
-    return res.redirect("/dashboard/projects");
+    return res.redirect(`/dashboard/projects/${id}/view`);
 };
 
 

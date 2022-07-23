@@ -83,15 +83,13 @@
                     <tbody >
                         <% projects.tickets.forEach(ticket => { %> 
                             <tr> 
-                                <td><%= ticket.title %> </td>
+                                <td><a href="/dashboard/ticket/details/<%- ticket.id %>" class="text-decoration-none text-dark"><%= ticket.title %> </a></td>
                                 <td><%= ticket.ticketType.name%> </td>
                                 <td><%= ticket.ticketStatus.name %> </td>
                                 <td><%= ticket.ticketPriority.name %> </td>
                     
                                 <td class='text-center'>    
-                                    <a href=""><i class="bi bi-eye-fill text-primary fs-4 pe-1"></i></a>
-                                    <a href=""><i class="bi bi-pencil-square text-warning fs-4 pe-1"></i></a>
-                                    <a data-bs-toggle="modal" data-bs-target="#deleteModalTicketID"><i class="bi bi-trash3-fill text-danger fs-4 pe-1" id="deleteButton"></i></a>
+                                    <a href="/dashboard/ticket/details/<%- ticket.id %>"><i class="bi bi-eye-fill text-primary fs-4 pe-1"></i></a>
                                 </td>
                             </tr>
 

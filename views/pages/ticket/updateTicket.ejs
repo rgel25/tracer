@@ -1,0 +1,127 @@
+<%- layout('layout/dashboard') %>
+<div class="p-2">
+  
+  <div class="container">
+        <div class="card p-3 col-5 mx-auto mt-5" >
+            <h2 class='text-center'>Update Ticket</h2>
+
+            <form action="/dashboard/ticket/updateTicket" method="POST">
+                <input type="hidden" value="<%-ticket.id%>" name="ticketId">
+                <div class="form-group mb-3">
+                    <label htmlFor="title">Ticket Title</label>
+                    <input 
+                    type="text" 
+                    class="form-control"
+                    name="title" 
+                    id="title" 
+                    placeholder="Type Here" 
+                    value="<%- ticket.title %>"
+                    required/>
+                </div>
+                <div class="form-group mb-3">
+                    <label htmlFor="description">Ticket Description</label>
+                    <input 
+                    type="text" 
+                    class="form-control"
+                    name="description" 
+                    id="description" 
+                    placeholder="Type Here" 
+                    value="<%- ticket.description %>"
+                    required/>
+                </div>
+                <div class="form-group mb-3">
+                    <label htmlFor="projectId">Project</label>
+                    <select 
+                    name="projectId"
+                    id="projectId" 
+                    class='form-select'
+                    required>
+                        <option value="">Select a Project</option>
+                        <% projects.forEach( proj => { %>
+                            <option 
+                            value="<%- proj.id %>"
+                            <% if (proj.id === ticket.projectId) { %>
+                                selected
+                            <% } %>
+                            >
+                            <%- proj.project_name %> 
+                            </option>
+                        <% }) %> 
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label htmlFor="ticketPriority">Ticket Priority</label>
+                    <select 
+                    name="ticketPriority"
+                    id="ticketPriority" 
+                    class='form-select' 
+                    required>
+                        <option value="">Select a priority</option>
+                        <% ticketPriority.forEach( tp => { %>
+                            <option 
+                            value="<%- tp.ref_id %>" 
+                            <% if (tp.ref_id === ticket.ticketPriorityRefId) { %>
+                                selected
+                            <% } %>
+                            >
+                            <%- tp.name %> 
+                            </option>
+                        <% }) %> 
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label htmlFor="ticketType">Ticket Type</label>
+                    <select 
+                    name="ticketType"
+                    id="ticketType" 
+                    class='form-select' 
+                    required>
+                        <option value="">Select a type</option>
+                        <% ticketType.forEach( tt => { %>
+                            <option 
+                            value="<%- tt.ref_id %>" 
+                            <% if (tt.ref_id === ticket.ticketTypeRefId) { %>
+                                selected
+                            <% } %>
+                            >
+                            <%- tt.name %> 
+                            </option>
+                        <% }) %> 
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label htmlFor="ticketStatus">Ticket Status</label>
+                    <select 
+                    name="ticketStatus"
+                    id="ticketStatus" 
+                    class='form-select' 
+                    required>
+                        <option value="">Select a type</option>
+                        <% ticketStatus.forEach( ts => { %>
+                            <option 
+                            value="<%- ts.ref_id %>" 
+                            <% if (ts.ref_id === ticket.ticketStatusRefId) { %>
+                                selected
+                            <% } %>
+                            >
+                            <%- ts.name %> 
+                            </option>
+                        <% }) %> 
+                    </select>
+                </div>
+                <input type="hidden" value="<%-ticket.title%>" name="originalTitle">
+                <input type="hidden" value="<%-ticket.description%>" name="originalDescription">
+                <input type="hidden" value="<%-ticket.projectId%>" name="originalProjectId">
+                <input type="hidden" value="<%-ticket.ticketStatusRefId%>" name="originalTicketStatus">
+                <input type="hidden" value="<%-ticket.ticketTypeRefId%>" name="originalTicketType">
+                <input type="hidden" value="<%-ticket.ticketPriorityRefId%>" name="originalTicketPriority">
+                <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+  </div>
+  
+    
+</div>
