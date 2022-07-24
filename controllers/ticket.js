@@ -13,6 +13,11 @@ module.exports.tickets = async (req, res) => {
     };
 
     await db.ticket.findAll({
+        where : {
+            ticketStatusRefId : {
+                [Op.not] : 'ts5'
+            }
+        },
         include: [
         {
             model: db.project,
@@ -68,7 +73,12 @@ module.exports.renderMyTicketPage = async (req, res) => {
                 {
                     model: db.reference_code,
                     as : 'ticketPriority'
-                }]
+                }],
+            where : {
+                ticketStatusRefId : {
+                    [Op.not] : 'ts5'
+                }
+            }
         }]
     },{
         where : {
@@ -150,16 +160,32 @@ module.exports.addTicket = async (req, res) => {
         userId: 1 
     };
 
-    const addTicket = await db.ticket.create({
-        title : req.body.title,
-        description : req.body.description,
-        ticketTypeRefId : req.body.ticketType,
-        projectId : req.body.projectId,
-        ticketPriorityRefId : req.body.ticketPriority,
-        userId : user.userId
-    })
+    const errors = [];
+    // Check all required fields
+    if (!req.body.title || !req.body.description || !req.body.ticketType || !req.body.projectId || !req.body.ticketPriority) {
+        errors.push({ errorMsg: "Please fill in all fields." });
+    }
 
-    return res.redirect("/dashboard/ticket");
+    if (errors.length > 0) {
+        // VALIDATION FAIL
+        req.flash(
+          "error",
+          errors.map((err) => err.errorMsg)
+        );
+        res.redirect("/auth/signup");
+      } else {
+        // VALIDATION PASS
+        const addTicket = await db.ticket.create({
+            title : req.body.title,
+            description : req.body.description,
+            ticketTypeRefId : req.body.ticketType,
+            projectId : req.body.projectId,
+            ticketPriorityRefId : req.body.ticketPriority,
+            userId : user.userId
+        })
+        req.flash("success", "One ticket was successfully added.!");
+        return res.redirect("/dashboard/ticket");
+      }
 }
 
 /////////////////////////////////////////////////////////////////////// Get one ticket
@@ -336,7 +362,7 @@ module.exports.updateTicket = async (req, res) => {
             id : id
         }
     })
-
+    req.flash("success", "One ticket has been updated successfully.!");
     return res.redirect("/dashboard/ticket");
 }
 
@@ -354,7 +380,25 @@ module.exports.deleteTicket = async (req, res) => {
     await db.ticket.destroy({
         where : { id : ticketId}
     })
+    req.flash("success", "One ticket has been successfully removed.!");
+    return res.redirect("/dashboard/ticket/myTicket/archived");
+}
 
+//////////////////////////////////////////////////////////////// archive ticket
+module.exports.archiveTicket = async (req, res) => {
+    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
+    // const user = req.user;
+    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
+    const user = {
+        first_name: "argel",
+        last_name: "miralles",
+        userId: 1
+    };
+    const ticketId = req.params.id;
+    await db.ticket.update({
+        ticketStatusRefId : 'ts5'
+    }, { where : { id : ticketId} })
+    req.flash("success", "One ticket has been archived.!");
     return res.redirect("/dashboard/ticket");
 }
 

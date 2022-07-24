@@ -31,6 +31,9 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.ticket_history, {
       onDelete: "cascade",
     });
+
+    User.hasOne(models.project, {as: 'manager'});
+    models.project.belongsTo(User, {as: 'manager'});
   };
   return User;
 };
