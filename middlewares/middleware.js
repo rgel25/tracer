@@ -9,7 +9,7 @@ module.exports.isLoggedIn = (req, res, next) => {
   // CHECK IF USER ROLE === UNASSIGNED
   // REDIRECT TO NEWUSER PAGE AFTER LOGIN
   if (req.user.userRoleRefId === "ur5") {
-    return res.redirect("/newUser");
+    return res.redirect("/auth/newUser");
   }
   //  PROCEED TO NEXT MIDDLEWARE
   next();
@@ -20,8 +20,12 @@ module.exports.isLoggedIn = (req, res, next) => {
 // THEN REDIRECT THEM TO DASHBOARD
 module.exports.alreadyLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
-    req.flash("success", "You are already logged in!");
-    return res.redirect("/dashboard");
+    if (req.user.userRoleRefId !== "ur5") {
+      req.flash("success", "You are already logged in!");
+      return res.redirect("/dashboard");
+    } else {
+      return res.render("pages/auth/login");
+    }
   }
   //  PROCEED TO NEXT MIDDLEWARE
   next();

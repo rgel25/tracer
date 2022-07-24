@@ -22,8 +22,8 @@
             id="first-name"
             autofocus
             required
-            name="firstName"   
-            />
+            name="firstName"
+          />
         </div>
         <div class="mb-1">
           <label for="last-name" class="form-label"> Last name </label>
@@ -69,28 +69,6 @@
           />
         </div>
         <%- include("../../partials/flash") %>
-        <!-- {error.length > 0 ? (
-            <div class="card-text">
-              <div
-                class="alert alert-danger alert-dismissible fade show"
-                role="alert"
-              >
-                {error.map((err, i) => (
-                  <small class="d-block" key={i}>
-                    {err.errorMsg}
-                  </small>
-                ))}
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="alert"
-                  aria-label="Close"
-                ></button>
-              </div>
-            </div>
-          ) : (
-            ""
-          )} -->
         <div class="d-grid mb-1">
           <button type="submit" class="btn btn-theme-dark">Sign up!</button>
         </div>
@@ -98,7 +76,7 @@
 
       <p class="card-text text-center">
         Already have an account? Click
-        <a to="/auth/login" class="signup-login-link"> here </a>
+        <a to="/auth/login" class="signup-login-link">here</a>
         to log in!
       </p>
     </div>

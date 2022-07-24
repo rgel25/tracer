@@ -53,9 +53,9 @@ module.exports.signup = async (req, res) => {
           if (err) throw err;
           db.user
             .create({
-              first_name: firstName,
-              last_name: lastName,
-              email: email,
+              first_name: firstName.trim().toLowerCase(),
+              last_name: lastName.trim().toLowerCase(),
+              email: email.trim().toLowerCase(),
               password: hash,
             })
             .then(() => {
