@@ -20,7 +20,9 @@ module.exports.projects = async (req, res) => {
         }
     ],
         where: {
-            projectStatusRefId: "ps1"
+            projectStatusRefId : {
+                [Op.not] : 'ps3'
+            }
         }
     })
     return res.render("pages/project/index", { user , projects })
@@ -173,7 +175,30 @@ module.exports.viewProject = async (req, res) => {
         userId : 1
     };
 
-    db.project.findOne({
+    // get assigned manager
+    const assignedManager = await db.project.findOne({ 
+        where : { id : id },
+        include : {
+            model : db.user,
+            as : 'manager'
+        }
+        
+    });
+
+    console.log(assignedManager);
+    // Get every developer who is not assigned to this ticket.
+    const manager = await db.user.findAll({
+        where : {
+            id : {
+                [Op.not] : assignedManager.managerId
+            },
+            userRoleRefId : 'ur2'
+        }
+        
+    });
+
+
+    await db.project.findOne({
         include: [
             { 
                 model: db.ticket,
@@ -203,8 +228,7 @@ module.exports.viewProject = async (req, res) => {
             id: id,
         }
     }).then(projects => {
-        // console.log(projects)
-        return res.render("pages/project/viewProject",  { user , projects });
+        return res.render("pages/project/viewProject",  { user , projects , manager , assignedManager});
 })
 }
 
@@ -256,4 +280,54 @@ module.exports.archiveProject = async (req,res) => {
     return res.redirect("/dashboard/projects");
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////// assign project manager
 
+module.exports.assignProjectManager = async (req,res) => {
+    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
+    // const user = req.user;
+    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
+    const user = {
+        first_name: "argel",
+        last_name: "miralles",
+    };
+
+    await db.project.update({
+        managerId : req.body.projectManager
+    }, {
+        where: {
+            id: req.body.projectId
+        }
+    });
+    return res.redirect("/dashboard/projects/1/view");
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+module.exports.renderMyProjectPage = async (req, res) => {
+    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
+    // const user = req.user;
+    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
+    const user = {
+        first_name: "argel",
+        last_name: "miralles",
+        userId: 1
+    };
+
+    const projects = await db.project.findAll({
+        include: [
+            db.ticket,
+            {
+                model: db.reference_code,
+                as : 'projectPriority'
+            }
+        ],
+            where: {
+                managerId : user.userId,
+                projectStatusRefId : {
+                    [Op.not] : 'ps3'
+                }
+            }
+        })
+        return res.render("pages/project/myProject", { user , projects })
+}

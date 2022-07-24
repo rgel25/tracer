@@ -13,9 +13,13 @@ router.put('/:id/update', project.updateProject);
 router.delete('/:id/delete', project.deleteProject);
 
 router.get('/:id/view', project.viewProject);
+router.post('/assignManager', project.assignProjectManager);
 
 router.put('/:id/archive', project.archiveProject);
 router.get('/archive', project.archivedProjects);
+
+
+router.get('/myProject', project.renderMyProjectPage);
 
 
 module.exports = router;

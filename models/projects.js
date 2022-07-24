@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
         projectStatusRefId : {
             type : DataTypes.STRING,
             defaultValue: 'ps1'
-        }
+        },
+
     });
 
     Project.associate = models => {

@@ -18,8 +18,17 @@
                             <b>Project Manager:</b>
                         </div>
                         <div class="col">
-                          Select Project Manager
+                          <% if(assignedManager.manager != null) { %>
+                            <p><%= assignedManager.manager.first_name %></p>
+                          <% } else { %>
+                            <p>Unassigned</p>
+                          <% }  %> 
                         </div>
+                      </div>
+                      <div class="row mb-2">
+                        <button class="btn btn-theme-dark btn-sm" data-bs-toggle="modal" data-bs-target="#modalId">
+                          Assign Manager
+                        </button>
                       </div>
                       <div class="row">
                         <div class="col">
@@ -149,4 +158,34 @@
     </div>
         
 </div>
+</div>
+
+
+<!-- assign manager Modal -->
+<div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Assign Project Manager</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+      <div class="modal-body">
+        <form action="/dashboard/projects/assignManager" method="post">
+          <div class="container-fluid">
+            <div class="mb-3">
+              <label for="projectManager" class="form-label">Select Manager</label>
+              <select class="form-select" name="projectManager" id="projectManager" required>
+                <option value="">Select Manager</option>
+                <% manager.forEach(man => { %>
+                  <option value="<%- man.id %>"><%- man.first_name %> <%- man.last_name %></option>
+                <% })  %> 
+              </select>
+              <input type="hidden" name="projectId" value="<%- projects.id %>">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-theme-dark float-end">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
