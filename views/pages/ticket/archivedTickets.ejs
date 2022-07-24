@@ -12,7 +12,9 @@
             <th>Ticket Type</th>
             <th>Ticket Status</th>
             <th>Ticket Priority</th>
+            <% if(currentUser.userRoleRefId === "ur1" || currentUser.userRoleRefId === "ur2"){ %>
             <th>Action</th>
+            <% } %> 
             </tr>
         </thead>
         <tbody>
@@ -26,11 +28,13 @@
                     <td><%- ticket.ticketType.name %></td>
                     <td><%- ticket.ticketStatus.name %></td>
                     <td><%- ticket.ticketPriority.name %></td>
+                    <% if(currentUser.userRoleRefId === "ur1" || currentUser.userRoleRefId === "ur2"){ %>
                     <td class='d-flex no-wrap'>
                         <a href='#' className='text-danger' data-bs-toggle="modal" data-bs-target="#model<%- ticket.id %>">
                             <i class="bi bi-trash3-fill text-danger fs-4 pe-1"></i>
                         </a>
                     </td>
+                    <% } %> 
                 </tr>
 
                 <!-- Modal -->

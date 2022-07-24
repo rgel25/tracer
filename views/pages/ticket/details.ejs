@@ -39,11 +39,9 @@
                     </div>
                     <dl class="mt-4">
                        <dt>Assigned Developer</dt>
-                       <% if (assignedDeveloper.length > 0) { 
-                           assignedDeveloper.forEach(developer => { %>
-                           <dd><%-developer.user.first_name%></dd>
-                        <% }) 
-                        }else{ %>
+                       <% if (assignedDeveloper.developer !== null) { %>
+                           <dd><%-assignedDeveloper.developer.first_name %> <%-assignedDeveloper.developer.last_name%></dd>
+                        <% }else{ %>
                            <dd>Unassigned</dd>
                        <% } %> 
                        
@@ -57,7 +55,6 @@
                         <% }) %> 
                      </select>
                      <input type="hidden" value="<%-ticket.id%>" name="ticketId">
-                     <input type="hidden" value="1" name="userId"> <!-- IMPORTANT who's login-->
                      <button class='btn btn-success' >Assign Developer</button>
                     </form>
                  </div>
@@ -103,7 +100,6 @@
                           <textarea class="form-control" name="comment" id="comment" rows="3"></textarea>
                        </div>
                        <input type="hidden" value="<%-ticket.id%>" name="ticketId">
-                       <input type="hidden" value="1" name="userId"> <!-- IMPORTANT who's login-->
                        <div class="d-grid gap-2">
                           <button type="submit" class="btn btn-primary">Submit</button>
                        </div>

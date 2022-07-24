@@ -4,14 +4,9 @@ const { Op } = require("sequelize");
 
 //////////////////////////////////////////////////////////////// Get all ticket
 module.exports.tickets = async (req, res) => {
-    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-    };
 
+    const currentUser = req.user;
+    
     await db.ticket.findAll({
         where : {
             ticketStatusRefId : {
@@ -37,7 +32,7 @@ module.exports.tickets = async (req, res) => {
         }
     ]
     }).then( tickets => {
-        return res.render("pages/ticket/index", { user , tickets});
+        return res.render("pages/ticket/index", { currentUser , tickets});
     });
 
 };
@@ -45,18 +40,18 @@ module.exports.tickets = async (req, res) => {
 //////////////////////////////////////////////////////////////// Get all my ticket
 module.exports.renderMyTicketPage = async (req, res) => {
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
+    const currentUser = req.user;
+    const id = req.user.id;
     // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-        userId : 1
-    };
 
-    const tickets = await db.ticket_asign_developer.findAll({
-        include: [{
-            model: db.ticket,
-            as : 'ticket',
+
+    const tickets = await db.ticket.findAll({
+            where : {
+                developerId : id,
+                ticketStatusRefId : {
+                    [Op.not] : 'ts5'
+                }
+            },
             include: [
                 {
                     model: db.project,
@@ -73,33 +68,18 @@ module.exports.renderMyTicketPage = async (req, res) => {
                 {
                     model: db.reference_code,
                     as : 'ticketPriority'
-                }],
-            where : {
-                ticketStatusRefId : {
-                    [Op.not] : 'ts5'
-                }
-            }
-        }]
-    },{
-        where : {
-            userId : user.userId
-        }
+                }]
+        
     })
 
-    return res.render("pages/ticket/myTicket", { user , tickets});
+    return res.render("pages/ticket/myTicket", { currentUser , tickets});
    
 };
 
 //////////////////////////////////////////////////////////////// Get all archived ticket
 module.exports.renderArchivedTicketPage = async (req, res) => {
-    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-        userId : 1
-    };
+   
+    const currentUser = req.user;
 
     const tickets = await db.ticket.findAll({
         where : { ticketStatusRefId : 'ts5' },
@@ -123,26 +103,20 @@ module.exports.renderArchivedTicketPage = async (req, res) => {
         ]
     })
 
-    return res.render("pages/ticket/archivedTickets", { user , tickets});
+    return res.render("pages/ticket/archivedTickets", { currentUser , tickets});
    
 };
 
 
 ////////////////////////////////////////////////////////////////////// Render Add Ticket page
 module.exports.renderAddTicketPage = async (req, res) => {
-    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-    };
+    const currentUser = req.user;
     const projects = await db.project.findAll();
     const ticketPriority = await db.reference_code.findAll({ where : { group_name : 'tp'} });
     const ticketType = await db.reference_code.findAll({ where : { group_name : 'tt'} });
     
     return res.render("pages/ticket/addTicket", { 
-        user , 
+        currentUser , 
         projects , 
         ticketPriority ,
         ticketType
@@ -151,14 +125,7 @@ module.exports.renderAddTicketPage = async (req, res) => {
 
 ////////////////////////////////////////////////////////////////////// Add Ticket
 module.exports.addTicket = async (req, res) => {
-    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-        userId: 1 
-    };
+    const currentUserId = req.user.id;
 
     const errors = [];
     // Check all required fields
@@ -181,22 +148,16 @@ module.exports.addTicket = async (req, res) => {
             ticketTypeRefId : req.body.ticketType,
             projectId : req.body.projectId,
             ticketPriorityRefId : req.body.ticketPriority,
-            userId : user.userId
+            userId : currentUserId
         })
-        req.flash("success", "One ticket was successfully added.!");
+        req.flash("success", "One ticket successfully added.!");
         return res.redirect("/dashboard/ticket");
       }
 }
 
 /////////////////////////////////////////////////////////////////////// Get one ticket
 module.exports.getTicket = async (req, res) => {
-     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-    };
+    const currentUser = req.user;
 
     const { id } = req.params;
     const projects = await db.project.findAll();
@@ -226,7 +187,7 @@ module.exports.getTicket = async (req, res) => {
     });
     
     return res.render("pages/ticket/updateTicket", { 
-        user , 
+        currentUser , 
         ticket , 
         projects ,
         ticketStatus ,
@@ -237,13 +198,7 @@ module.exports.getTicket = async (req, res) => {
 
 ////////////////////////////////////////////////////////////////// View Ticket Details
 module.exports.ticketDetails = async (req, res) => {
-    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles"
-    };
+    const currentUser = req.user;
 
     const { id } = req.params;
     // Get all ticket History
@@ -252,23 +207,27 @@ module.exports.ticketDetails = async (req, res) => {
         where : { ticketId : id } 
     });
 
-    // Get every developer who is assigned to this ticket.
-    const assignedDeveloper = await db.ticket_asign_developer.findAll({
-        where : {
-            ticketId : id
-        },
-        include : db.user
+   // get assigned developer
+   const assignedDeveloper = await db.ticket.findOne({ 
+    where : { id : id },
+    include : {
+        model : db.user,
+        as : 'developer'
+    }
+    
     });
-    const devId = assignedDeveloper.map(dev => dev.userId);
 
     // Get every developer who is not assigned to this ticket.
     const developer = await db.user.findAll({
         where : {
             id : {
-                [Op.notIn] : devId
+                [Op.not] : assignedDeveloper.developerId
             },
-            userRoleRefId : 'ur3'
+            userRoleRefId : {
+                [Op.in] : ['ur3', 'ur4']
+            }
         }
+        
     });
     
     // Gel all comment on this ticket
@@ -301,7 +260,7 @@ module.exports.ticketDetails = async (req, res) => {
         ]
     });
     return res.render("pages/ticket/details", { 
-        user , 
+        currentUser , 
         ticket , 
         developer , 
         comments , 
@@ -312,14 +271,8 @@ module.exports.ticketDetails = async (req, res) => {
 
 ///////////////////////////////////////////////////////////////// update Ticket
 module.exports.updateTicket = async (req, res) => {
-    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-        userId: 1
-    };
+    const currentUserId = req.user.id;
+
     const id = req.body.ticketId;
 
     const changesRaw = [];
@@ -347,7 +300,7 @@ module.exports.updateTicket = async (req, res) => {
         title : 'Ticket Update',
         description : historyDescription,
         ticketId : req.body.ticketId,
-        userId : user.userId
+        userId : currentUserId
     })
 
     await db.ticket.update({
@@ -368,14 +321,7 @@ module.exports.updateTicket = async (req, res) => {
 
 //////////////////////////////////////////////////////////////// delete ticket
 module.exports.deleteTicket = async (req, res) => {
-    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-        userId: 1
-    };
+   
     const ticketId = req.params.id;
     await db.ticket.destroy({
         where : { id : ticketId}
@@ -386,14 +332,7 @@ module.exports.deleteTicket = async (req, res) => {
 
 //////////////////////////////////////////////////////////////// archive ticket
 module.exports.archiveTicket = async (req, res) => {
-    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-        userId: 1
-    };
+    
     const ticketId = req.params.id;
     await db.ticket.update({
         ticketStatusRefId : 'ts5'
@@ -404,18 +343,11 @@ module.exports.archiveTicket = async (req, res) => {
 
 /////////////////////////////////////////////////////////////// create new comment
 module.exports.addComment = async (req, res) => {
-    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-        userId: 1
-    };
+    const currentUserId = req.user.id;
     const comments = await db.comment.create({
         comment : req.body.comment,
         ticketId : req.body.ticketId,
-        userId : user.userId
+        userId : currentUserId
     });
 
     return res.redirect(`/dashboard/ticket/details/${req.body.ticketId}`);
@@ -424,14 +356,7 @@ module.exports.addComment = async (req, res) => {
 
 /////////////////////////////////////////////////////////////////// assign new developer
 module.exports.assignDeveloper = async (req, res) => {
-    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-        userId: 1
-    };
+    const currentUserId = req.user.id;
     const userInfo = await db.user.findOne({ where : { id : req.body.developer } });
     const userName = userInfo.first_name + ' ' + userInfo.last_name;
     const ticketStatus = await db.ticket.findOne({ where : { id : req.body.ticketId }});
@@ -439,11 +364,14 @@ module.exports.assignDeveloper = async (req, res) => {
         title : 'New Assigned Ticket Developer',
         description : userName,
         ticketId : req.body.ticketId,
-        userId : user.userId
+        userId : currentUserId
     })
-    await db.ticket_asign_developer.create({
-        userId : req.body.developer,
-        ticketId : req.body.ticketId
+    await db.ticket.update({
+        developerId : req.body.developer
+    },{
+        where : {
+            id : req.body.ticketId
+        }
     })
     console.log(ticketStatus.ticketStatusRefId);
     if(ticketStatus.ticketStatusRefId === 'ts1'){
