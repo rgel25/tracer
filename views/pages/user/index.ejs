@@ -11,7 +11,8 @@
     <div class="col-md-6 offset-md-3">
       <div class="card p-4 mb-3" style="width: 100%">
         <div class="card-body">
-          <h4 class="card-title">User: <%= user.first_name %> <%= user.last_name%> </h4>
+          <h4 class="card-title">User: <%= formatName(user.first_name, user.last_name) %></h4>
+          <h5 class="card-title">Current Role: <%= rolePrint(user.userRoleRefId) %></h5>
            <form action="/dashboard/user?_method=PATCH" method="POST">
             <div class="mb-3">
                 <input type="hidden" name="id" value="<%= user.id%>">

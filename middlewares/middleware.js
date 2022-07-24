@@ -1,4 +1,4 @@
-const ExpressError = require("./utils/ExpressError");
+const ExpressError = require("../utils/ExpressError");
 
 // CHECK IF A USER IS **NOT AUTHENTICATED**
 module.exports.isLoggedIn = (req, res, next) => {
@@ -8,7 +8,7 @@ module.exports.isLoggedIn = (req, res, next) => {
   }
   // CHECK IF USER ROLE === UNASSIGNED
   // REDIRECT TO NEWUSER PAGE AFTER LOGIN
-  if (req.user.role === "unassigned") {
+  if (req.user.userRoleRefId === "ur5") {
     return res.redirect("/newUser");
   }
   //  PROCEED TO NEXT MIDDLEWARE
@@ -20,8 +20,53 @@ module.exports.isLoggedIn = (req, res, next) => {
 // THEN REDIRECT THEM TO DASHBOARD
 module.exports.alreadyLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
+    req.flash("success", "You are already logged in!");
     return res.redirect("/dashboard");
   }
   //  PROCEED TO NEXT MIDDLEWARE
   next();
+};
+
+module.exports.isAdmin = (req, res, next) => {
+  if (req.user.userRoleRefId !== "ur1") {
+    req.flash("error", "You are not authorized to access that page");
+    return res.redirect("/dashboard");
+  }
+  next();
+};
+
+module.exports.isProjectManager = (req, res, next) => {
+  if (req.user.userRoleRefId !== "ur2") {
+    req.flash("error", "You are not authorized to access that page");
+    return res.redirect("/dashboard");
+  }
+  next();
+};
+
+module.exports.isDeveloper = (req, res, next) => {
+  if (req.user.userRoleRefId !== "ur3") {
+    req.flash("error", "You are not authorized to access that page");
+    return res.redirect("/dashboard");
+  }
+  next();
+};
+
+module.exports.isSubmitter = (req, res, next) => {
+  if (req.user.userRoleRefId !== "ur4") {
+    req.flash("error", "You are not authorized to access that page");
+    return res.redirect("/dashboard");
+  }
+  next();
+};
+
+module.exports.allowedRoles = (roles) => {
+  // MAKE SURE TO ENTER AN ARRAY OF ROLE CODES
+  // EX. ["ur1", "ur2"]
+  return (req, res, next) => {
+    if (!roles.includes(req.user.userRoleRefId)) {
+      req.flash("error", "You are not authorized to access that page");
+      return res.redirect("/dashboard");
+    }
+    next();
+  };
 };

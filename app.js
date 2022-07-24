@@ -28,6 +28,10 @@ const dashboardRoutes = require("./routes/dashboard");
 const projectRoutes = require("./routes/project");
 const ticketRoutes = require("./routes/ticket");
 const userRoutes = require("./routes/user");
+// REQUIRE CUSTOM MIDDLEWARE
+const { alreadyLoggedIn } = require("./middlewares/middleware");
+// REQUIRE HELPERS
+const { rolePrint, formatName, formatDate } = require("./utils/helpers");
 // --------------------- END OF IMPORTS ---------------------
 
 // --------------------- START OF TEMPLATING TOOLS ---------------------
@@ -90,6 +94,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 // --------------------- END OF SESSION/SESSION CONFIG---------------------
 
+// START OF HELPERS
+app.locals.rolePrint = rolePrint;
+app.locals.formatName = formatName;
+app.locals.formatDate = formatDate;
+// END OF HELPERS
+
 // --------------------- START OF LOCAL RESPONSE VARIABLES---------------------
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
@@ -108,7 +118,8 @@ app.use("/dashboard/ticket", ticketRoutes);
 // --------------------- END OF ROUTING ---------------------
 
 // --------------------- START OF HOME PAGE ROUTING ---------------------
-app.get("/", (req, res) => {
+app.get("/", alreadyLoggedIn, (req, res) => {
+  console.log(req.user);
   res.render("pages/landing");
 });
 // --------------------- END OF HOME PAGE ROUTING ---------------------

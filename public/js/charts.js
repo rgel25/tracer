@@ -1,3 +1,12 @@
+const colors = [
+  "#004352",
+  "#00668E",
+  "#00B4B3",
+  "#494873",
+  "#008DA6",
+  "#00406C",
+];
+
 const projectLabels = [];
 const projectData = [];
 projects.forEach((project) => {
@@ -15,7 +24,7 @@ const data1 = {
     {
       label: "Tickets by project",
       data: projectData,
-      backgroundColor: ["#008DA6", "#00406C", "#00668E"],
+      backgroundColor: colors,
       hoverOffset: 4,
     },
   ],
@@ -63,7 +72,7 @@ const data2 = {
         closedTickets,
         archivedTickets,
       ],
-      backgroundColor: ["#008DA6", "#00406C", "#00668E", " #00B4B3", "#65DBB7"],
+      backgroundColor: colors,
       hoverOffset: 4,
     },
   ],
@@ -98,7 +107,7 @@ const data3 = {
         runtimeTickets,
         newdevelopmentTickets,
       ],
-      backgroundColor: ["#008DA6", "#00406C", "#00668E", " #00B4B3", "#65DBB7"],
+      backgroundColor: colors,
       hoverOffset: 4,
     },
   ],
@@ -130,7 +139,7 @@ const data4 = {
     {
       label: "Ticket by Priority",
       data: [urgentTickets, highTickets, mediumTickets, lowTickets],
-      backgroundColor: ["#008DA6", "#00406C", "#00668E", " #00B4B3", "#65DBB7"],
+      backgroundColor: colors,
       hoverOffset: 4,
     },
   ],

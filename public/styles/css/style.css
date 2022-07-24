@@ -164,14 +164,17 @@ body {
   max-width: 200px;
 }
 
+body {
+  background-color: #e7e9ec;
+}
+
 .dashboard-container {
-  height: 400vh;
+  min-height: 100vh;
   position: relative;
 }
 
 .dashboard-contents {
   margin-left: 269px;
-  background-color: #e7e9ec;
   height: 100%;
   transition: all 0.2s;
 }

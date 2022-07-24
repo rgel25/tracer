@@ -1,0 +1,63 @@
+Prottecting ROUTES (STEPS)
+ref_code
+user
+project (add null as last value)
+tickets
+
+Protecting routes
+Frontend
+ - make sure to pass currentUser from rendering
+ - const currentUser = req.user <-(from passport session only)
+ - After passing currentUser to EJS, render target HTML components as needed, use if statements. Ex. userRoleRefId = "ur1"
+Backend 
+ - define middleware (already made)
+ - IMPORT middleware to routes Ex. Syntax -> const {isLoggedIn, allowedRoles} = require(PATH TO MIDDLEWARE)
+ - Apply middleware to route before the controller function -> router.get('/', sampleMiddleware, sample.sampleControl)
+TEST ROUTES BY CHANGING URL AND MAKING SURE FRONT END IS NOT DISPLAYING LINKS THAT IT SHOULD NOT BE DISPLAYING
+
+-----------------------------------------------------------------------------------------------------
+Role permissions
+
+Admin
+Can do anything
+--------------
+
+Project Managers
+Users Page
+- no access to users 
+Projects Page
+- can assign projects to themselves or other PMs
+- can add projects
+- can edit projects
+- can view specific projects
+- can view My Projects page.
+- can archieve projects
+- can NOT delete archieved projects
+Tickets Page
+- can do everything (same as projects)
+- can NOT delete archieved tickets (same as projects)
+---------------
+Devs
+Users Page
+- no access to users
+Projects Page
+- HAS access to All Projects
+- Can view specifc project details
+- Can NOT add and edit a project
+- Can NOT archieve a project
+- Can NOT delete archieved projects
+Tickets Page
+- can do everything (same as projects)
+- can NOT archieve tickets (same as projects)
+- can NOT delete archieved tickets (same as projects)
+------------------
+Submitter
+Users Page
+- no access to users
+Projects Page
+- no access to projects
+Tickets Page
+*Same as devs
+- can do everything EXCEPT THE FOLLOWING
+- can NOT archieve tickets (same as projects)
+- can NOT delete archieved tickets (same as projects)
