@@ -8,24 +8,24 @@ const password = document.querySelector("#loginPassword");
 
 demoAdminBtn.addEventListener("click", () => {
   email.value = "demoadmin@tracer.com";
-  password.value = "tangina";
+  password.value = "traceradmin2022charmander";
   loginForm.submit();
 });
 
 demoPmBtn.addEventListener("click", () => {
   email.value = "demoprojectmanager@tracer.com";
-  password.value = "tangina";
+  password.value = "traceradmin2022charmeleon";
   loginForm.submit();
 });
 
 demoDevBtn.addEventListener("click", () => {
   email.value = "demodeveloper@tracer.com";
-  password.value = "tangina";
+  password.value = "traceradmin2022charizard";
   loginForm.submit();
 });
 
 demoSubmitterBtn.addEventListener("click", () => {
   email.value = "demosubmitter@tracer.com";
-  password.value = "tangina";
+  password.value = "traceradmin2022bulbasaur";
   loginForm.submit();
 });
