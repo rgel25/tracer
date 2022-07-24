@@ -34,6 +34,9 @@ module.exports = (sequelize, DataTypes) => {
 
     User.hasOne(models.project, {as: 'manager'});
     models.project.belongsTo(User, {as: 'manager'});
+
+    User.hasOne(models.ticket, {as: 'developer'});
+    models.ticket.belongsTo(User, {as: 'developer'});
   };
   return User;
 };
