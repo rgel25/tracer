@@ -221,6 +221,7 @@
                 <th>Name</th>
                 <th>Start Date</th>
                 <th>End Date</th>
+                <th>Description</th>
                 <th>Priority</th>
               
                 <th class='col-1 text-center'>Ticket Count</th>
@@ -233,6 +234,7 @@
                     <td><a href="/dashboard/projects/<%= proj.id %>/view" class="text-decoration-none text-dark"><%= proj.project_name %></a></td>
                     <td><%= formatDate(proj.project_start) %> </td>
                     <td><%= formatDate(proj.project_end) %> </td>
+                    <td><%= proj.project_description %> </td>
                     <td><%= proj.projectPriority.name %> </td>
                  
                     <td class='text-center'><%= proj.tickets.length %></td>

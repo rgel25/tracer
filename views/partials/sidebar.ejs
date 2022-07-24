@@ -68,8 +68,7 @@
         Users
       </a>
     </li>
-    <% } %>
-    <% if(currentUser.userRoleRefId !== "ur4") {%> 
+    <% } %> <% if(currentUser.userRoleRefId !== "ur4") {%>
     <li class="mb-1 nav-item">
       <button
         class="btn btn-toggle align-items-center rounded nav-link-with-logo text-white btn-toggle-side"
@@ -100,7 +99,8 @@
               >All Projects</a
             >
           </li>
-          <% if(currentUser.userRoleRefId === "ur1" || currentUser.userRoleRefId === "ur2"){ %> 
+          <% if(currentUser.userRoleRefId === "ur1" || currentUser.userRoleRefId
+          === "ur2"){ %>
           <li class="mx-4 my-1">
             <a
               href="/dashboard/projects/new"
@@ -109,7 +109,9 @@
             >
           </li>
           <li class="mx-4 my-1">
-            <a href="/dashboard/projects/myProject" class="text-white text-decoration-none rounded"
+            <a
+              href="/dashboard/projects/myProject"
+              class="text-white text-decoration-none rounded"
               >My Projects</a
             >
           </li>
@@ -162,6 +164,8 @@
               >Add Tickets</a
             >
           </li>
+          <% if(currentUser.userRoleRefId === "ur3" || currentUser.userRoleRefId
+          === "ur4"){ %>
           <li class="mx-4 my-1">
             <a
               href="/dashboard/ticket/myTicket"
@@ -169,9 +173,10 @@
               >My Tickets</a
             >
           </li>
+          <% } %>
           <li class="mx-4 my-1">
             <a
-              href="/dashboard/ticket/myTicket/archived"
+              href="/dashboard/ticket/archive"
               class="text-white text-decoration-none rounded"
               >Ticket Archive</a
             >

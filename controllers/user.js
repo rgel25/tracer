@@ -21,6 +21,11 @@ module.exports.renderUserPage = async (req, res) => {
 
 module.exports.updateRole = async (req, res) => {
   const { id, role } = req.body;
+  if (id > 0 && id < 5) {
+    req.flash("error", "Sorry, demo account roles can't be edited");
+    return res.redirect("/dashboard/user");
+  }
+
   await db.user.update(
     {
       userRoleRefId: role,

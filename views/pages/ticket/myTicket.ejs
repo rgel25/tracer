@@ -1,10 +1,29 @@
 <%- layout('layout/dashboard') %>
-<div class="p-2">
-  
-  <div class="container card table-responsive p-4">
-    <table class="table table-striped table-inverse table-responsive" id="myTable">
-    <thead class="thead-inverse">
-        <tr>
+<div class="container col-lg-10 mt-3 p-3">
+  <div class="row">
+    <div class="col-lg-12"><%- include('../../partials/flash')%></div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <h4 class="fw-bold p-2">My Tickets</h4>
+    </div>
+    <div class="col-6 text-end mb-3">
+      <a
+        href="/dashboard/ticket/addTicket"
+        class="btn btn-theme-dark align-center"
+      >
+        Add Ticket
+      </a>
+    </div>
+  </div>
+  <div class="card table-responsive">
+    <div class="card-body">
+      <table
+        class="table table-bordered table-striped table-inverse table-responsive"
+        id="myTable"
+      >
+        <thead class="thead-inverse">
+          <tr>
             <th>ID</th>
             <th>Title</th>
             <th>Project</th>
@@ -12,69 +31,126 @@
             <th>Ticket Type</th>
             <th>Ticket Status</th>
             <th>Ticket Priority</th>
-            <th>Action</th>
-            </tr>
+            <th class="text-center">Action</th>
+          </tr>
         </thead>
         <tbody>
-            <% tickets.forEach((ticket) => { %>
-            <tr>
-                    <td><%- ticket.id %></td>
-                    <td><%- ticket.title %></td>
-                    <td><%- ticket.project.project_name %></td>
-                    <td><%- formatDate(ticket.createdAt) %></td>
-                    <td><%- ticket.ticketType.name %></td>
-                    <td><%- ticket.ticketStatus.name %></td>
-                    <td><%- ticket.ticketPriority.name %></td>
-                    <td class='d-flex no-wrap'>
-                        <a href="/dashboard/ticket/details/<%- ticket.id %>" className='text-primary'>
-                            <i class="bi bi-eye-fill text-primary fs-4 pe-1"></i>
-                        </a>
-                        <a href="/dashboard/ticket/updateTicket/<%- ticket.id %>" className='text-warning'>
-                            <i class="bi bi-pencil-square text-warning fs-4 pe-1"></i>
-                        </a>
-                        <% if(currentUser.userRoleRefId === "ur1" || currentUser.userRoleRefId === "ur2"){ %>
-                        <a href='#' className='text-danger' data-bs-toggle="modal" data-bs-target="#model<%- ticket.id %>">
-                            <i class="bi bi-trash3-fill text-danger fs-4 pe-1"></i>
-                        </a>
-                        <% } %>
-                    </td>
-                </tr>
+          <% tickets.forEach((ticket) => { %>
+          <tr>
+            <td>
+              <a
+                class="text-decoration-none text-dark"
+                href="/dashboard/ticket/details/<%=ticket.id%>"
+                ><%= ticket.id %></a
+              >
+            </td>
+            <td>
+              <a
+                class="text-decoration-none text-dark"
+                href="/dashboard/ticket/details/<%=ticket.id%>"
+                ><%= ticket.title %></a
+              >
+            </td>
+            <td><%= ticket.project.project_name %></td>
+            <td><%= formatDate(ticket.createdAt) %></td>
+            <td><%= ticket.ticketType.name %></td>
+            <td><%= ticket.ticketStatus.name %></td>
+            <td><%= ticket.ticketPriority.name %></td>
+            <td>
+              <div class="d-flex no-wrap justify-content-center">
+                <a
+                  href="/dashboard/ticket/details/<%= ticket.id %>"
+                  className="text-primary"
+                >
+                  <i class="bi bi-eye-fill text-primary fs-4 mx-2"></i>
+                </a>
+                <a
+                  href="/dashboard/ticket/updateTicket/<%= ticket.id %>"
+                  className="text-warning"
+                >
+                  <i class="bi bi-pencil-square text-warning fs-4 mx-2"></i>
+                </a>
+                <% if(currentUser.userRoleRefId === "ur1" ||
+                currentUser.userRoleRefId === "ur2"){ %>
+                <a
+                  href="#"
+                  className="text-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#model<%= ticket.id %>"
+                >
+                  <i class="bi bi-trash3-fill text-danger fs-4 mx-2"></i>
+                </a>
+                <% } %>
+              </div>
+            </td>
+          </tr>
 
-
-                <!-- Modal -->
-                <div class="modal fade" id="model<%- ticket.id %>" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Confirm Delete</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                            <div class="modal-body">
-                                <h4>Ticket Title: <span class="text-muted"><%- ticket.id %></span></h4>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <form action="/dashboard/ticket/<%- ticket.id %>/archive" method="POST">
-                                    <input type="hidden" value="<%- ticket.id %>" name="ticketId">
-                                    <button type="submit" class="btn btn-primary">Delete</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="model<%= ticket.id %>"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="modelTitleId"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Confirm Delete</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
                 </div>
+                <div class="modal-body">
+                  <h4>
+                    Ticket Title:
+                    <span class="text-muted"><%= ticket.id %></span>
+                  </h4>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                  <form
+                    action="/dashboard/ticket/<%= ticket.id %>/archive"
+                    method="POST"
+                  >
+                    <input
+                      type="hidden"
+                      value="<%= ticket.id %>"
+                      name="ticketId"
+                    />
+                    <button type="submit" class="btn btn-primary">
+                      Delete
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
 
-
-            <% }) %>
+          <% }) %>
         </tbody>
-    </table>
+      </table>
+    </div>
   </div>
-  
-    
 </div>
 
 <script
-src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
-integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
-crossorigin="anonymous"></script>
-<script type="text/javascript" src="/plugins/DataTables/datatables.min.js"></script>
+  src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+  integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
+  crossorigin="anonymous"
+></script>
+<script
+  type="text/javascript"
+  src="/plugins/DataTables/datatables.min.js"
+></script>
 <script src="/js/ticket.js"></script>

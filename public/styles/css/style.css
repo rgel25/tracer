@@ -37,6 +37,7 @@ body {
   background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../../images/landing-bg.jpg");
   background-size: cover;
   background-position: center;
+  color: #263871 !important;
 }
 
 .landing-page-card {
@@ -54,6 +55,7 @@ body {
   background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../../images/landing-bg.jpg");
   background-size: cover;
   background-position: center;
+  color: #263871 !important;
 }
 
 .login-page-card {
@@ -74,6 +76,7 @@ body {
   background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../../images/landing-bg.jpg");
   background-size: cover;
   background-position: center;
+  color: #263871 !important;
 }
 
 .sign-up-page-card {

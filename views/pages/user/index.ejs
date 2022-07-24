@@ -26,7 +26,7 @@
             </tr>
         </thead>
         <tbody >
-            <% users.forEach(user=>{ %>
+            <% users.forEach((user, i)=>{ %>
               <tr>
                 <td class="text-center"><%= user.id %></td>
                 <td class="text-center"><%= user.email %></td>
@@ -34,15 +34,20 @@
                 <td class="text-center"><%= formatName(user.last_name) %> </td>
                 <td class="text-center"><%= rolePrint(user.userRoleRefId)%></td>
                 <form action="/dashboard/user?_method=PATCH" method="POST">
-                <td class="text-center"> 
+                <td class="text-center">
+                  <% if(i >= 0 && i<4) { %>
+                    <span>Demo</span> 
+                    <% } else { %>  
                   <input type="hidden" name="id" value="<%= user.id%>">
                   <select id="role" name="role">
                   <% roles.forEach(role => { %>
                   <option <%=user.userRoleRefId === role.code ? "selected" :"" %>  value="<%= role.code %>"><%= role.name%></option>
                   <%}); %>
                   </select>
+                  <% } %>  
                 </td>
-                <td class="text-center"><button type="submit" class="btn btn-theme-dark">Submit</button></td>
+                
+                <td class="text-center"><% if(i >= 0 && i<4) { %><span>Demo</span> <% } else { %> <button type="submit" class="btn btn-theme-dark">Submit</button><% } %>  </td>
                 </form>
               </tr>
             <% }) %>   

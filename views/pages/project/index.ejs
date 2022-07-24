@@ -21,7 +21,7 @@
     <div class="card shadow">
       <div class="card-body">
         <div class="table-responsive">
-          <table class='table table-hover table-bordered table-bordered align-middle' id="myTable">
+          <table class='table table-hover table-bordered table-striped align-middle' id="myTable">
             <thead class='align-middle'>
                 <tr>
                     <th>Name</th>
@@ -40,12 +40,14 @@
                     <td><%= formatDate(proj.project_end) %> </td>
                     <td><%= proj.projectPriority.name %> </td>
                     <td class='text-center'><%= proj.tickets.length %></td>
-                    <td class='d-flex no-wrap'>    
-                      <a href="/dashboard/projects/<%= proj.id %>/view"><i class="bi bi-eye-fill text-primary text-center fs-4 pe-1"></i></a>
+                    <td>   
+                      <div class="d-flex no-wrap justify-content-center">
+                      <a href="/dashboard/projects/<%= proj.id %>/view"><i class="bi bi-eye-fill text-primary text-center fs-4 mx-2"></i></a>
                       <% if(currentUser.userRoleRefId === "ur1" || currentUser.userRoleRefId === "ur2"){ %> 
-                      <a href="/dashboard/projects/<%= proj.id %>/update"><i class="bi bi-pencil-square text-warning fs-4 pe-1"></i></a>
-                      <a data-bs-toggle="modal" data-bs-target="#archiveModalProjectID<%=proj.id%>"><i class="bi bi-trash3-fill text-danger fs-4 pe-1" id="deleteButton"></i></a>
+                      <a href="/dashboard/projects/<%= proj.id %>/update"><i class="bi bi-pencil-square text-warning fs-4 mx-2"></i></a>
+                      <a data-bs-toggle="modal" data-bs-target="#archiveModalProjectID<%=proj.id%>"><i class="bi bi-trash3-fill text-danger fs-4 mx-2" id="deleteButton"></i></a>
                       <% } %> 
+                    </div> 
                     </td>
                   </tr>
 
@@ -71,7 +73,7 @@
                         ></button>
                       </div>
                       <div class="modal-body">
-                        Are you sure you want to delete this project?
+                        This will archive the project. Are you sure you want to proceed?
                       </div>
                       <div class="modal-footer">
                         <form

@@ -1,87 +1,74 @@
 <%- layout('layout/dashboard') %>
-<div class="p-2">
-    <div class="container">
-        <div class="card p-3 col-5 mx-auto mt-5" >
-            <h2 class='text-center'>Add Ticket</h2>
+<div class="container col-lg-6 mt-3 p-3">
+  <div class="card shadow">
+    <div class="card-body">
+      <h2 class="text-center">Add Ticket</h2>
 
-            <form action="/dashboard/ticket/addTicket" method="POST">
-                <div class="form-group mb-3">
-                    <label for="title">Ticket Title</label>
-                    <input 
-                    type="text" 
-                    class="form-control"
-                    name="title" 
-                    id="title" 
-                    placeholder="Type Here" 
-                    required/>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="description">Ticket Description</label>
-                    <input 
-                    type="text" 
-                    class="form-control"
-                    name="description" 
-                    id="description" 
-                    placeholder="Type Here" 
-                    required/>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="projectId">Project</label>
-                    <select 
-                    name="projectId"
-                    id="projectId" 
-                    class='form-select'
-                    required>
-                        <option value="">Select a Project</option>
-                        <% projects.forEach( proj => { %>
-                            <option 
-                            value="<%- proj.id %>"
-                            >
-                            <%- proj.project_name %> 
-                            </option>
-                        <% }) %> 
-                    </select>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="ticketPriority">Ticket Priority</label>
-                    <select 
-                    name="ticketPriority"
-                    id="ticketPriority" 
-                    class='form-select' 
-                    required>
-                        <option value="">Select a priority</option>
-                        <% ticketPriority.forEach( tp => { %>
-                            <option 
-                            value="<%- tp.ref_id %>" 
-                            >
-                            <%- tp.name %> 
-                            </option>
-                        <% }) %> 
-                    </select>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="ticketType">Ticket Type</label>
-                    <select 
-                    name="ticketType"
-                    id="ticketType" 
-                    class='form-select' 
-                    required>
-                        <option value="">Select a type</option>
-                        <% ticketType.forEach( tt => { %>
-                            <option 
-                            value="<%- tt.ref_id %>" 
-                            >
-                            <%- tt.name %> 
-                            </option>
-                        <% }) %> 
-                    </select>
-                </div>
-
-                <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </form>
+      <form action="/dashboard/ticket/addTicket" method="POST">
+        <div class="form-group mb-3">
+          <label for="title">Ticket Title</label>
+          <input
+            type="text"
+            class="form-control"
+            name="title"
+            id="title"
+            placeholder="Type Here"
+            required
+          />
         </div>
-  </div>
+        <div class="form-group mb-3">
+          <label for="description">Ticket Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="description"
+            placeholder="Type Here"
+            required
+          />
+        </div>
+        <div class="form-group mb-3">
+          <label for="projectId">Project</label>
+          <select name="projectId" id="projectId" class="form-select" required>
+            <option value="">Select a Project</option>
+            <% projects.forEach( proj => { %>
+            <option value="<%- proj.id %>"><%- proj.project_name %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group mb-3">
+          <label for="ticketPriority">Ticket Priority</label>
+          <select
+            name="ticketPriority"
+            id="ticketPriority"
+            class="form-select"
+            required
+          >
+            <option value="">Select a priority</option>
+            <% ticketPriority.forEach( tp => { %>
+            <option value="<%- tp.ref_id %>"><%- tp.name %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group mb-3">
+          <label for="ticketType">Ticket Type</label>
+          <select
+            name="ticketType"
+            id="ticketType"
+            class="form-select"
+            required
+          >
+            <option value="">Select a type</option>
+            <% ticketType.forEach( tt => { %>
+            <option value="<%- tt.ref_id %>"><%- tt.name %></option>
+            <% }) %>
+          </select>
+        </div>
 
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-theme-dark">Add Ticket</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

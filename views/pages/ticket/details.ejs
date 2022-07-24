@@ -1,150 +1,149 @@
 <%- layout('layout/dashboard') %>
 <div class="p-2">
-    <div class="container mt-5">
-        <h2><%-ticket.project.project_name%> <span class='text-muted'>: <%-ticket.title%></span></h2>
-        <div class="row">
-            <!-- start ticket details -->
-           <div class="col-lg-7">
-              <div class="card">
-                 <div class="card-header bg-secondary">
-                    <span class='float-end text-white fs-5'>Created: 
-                       <%-ticket.createdAt%>
-                    </span>
-                 </div>
-                 <div class="card-body">
-                    <h4 class="card-title">Ticket Details</h4>
-                    <dl>
-                       <dt>Description</dt>
-                       <dd class="ms-3"><%-ticket.ticketDescription%></dd>
-                    </dl>
-                    <div class="row">
-                       <div class="col-md-4">
-                          <span>Ticket Type: </span>
-                          <span class='badge bg-success'>
-                             <%-ticket.ticketType.name%>
-                          </span>
-                       </div>
-                       <div class="col-md-4">
-                          <span>Ticket Status: </span>
-                          <span class='badge bg-warning'>
-                             <%-ticket.ticketStatus.name%>
-                          </span>
-                       </div>
-                       <div class="col-md-4">
-                          <span>Ticket Priority: </span>
-                          <span class='badge bg-danger'>
-                             <%-ticket.ticketPriority.name%>
-                          </span>
-                       </div>
-                    </div>
-                    <dl class="mt-4">
-                       <dt>Assigned Developer</dt>
-                       <% if (assignedDeveloper.developer !== null) { %>
-                           <dd><%-assignedDeveloper.developer.first_name %> <%-assignedDeveloper.developer.last_name%></dd>
-                        <% }else{ %>
-                           <dd>Unassigned</dd>
-                       <% } %> 
-                       
-                    </dl>
-                    <label for="developer" className="form-label">Select Developer</label>
-                    <form action="/dashboard/ticket/assign/developer" method="POST">
-                     <select name="developer" id="developer" className="form-control" required> 
-                        <option value="">Select Developer</option>
-                        <% developer.forEach(dev => { %>
-                           <option value="<%-dev.id%>"><%-dev.first_name%></option>
-                        <% }) %> 
-                     </select>
-                     <input type="hidden" value="<%-ticket.id%>" name="ticketId">
-                     <button class='btn btn-success' >Assign Developer</button>
-                    </form>
-                 </div>
+  <div class="container mt-5">
+    <h2>
+      <%-ticket.project.project_name%>
+      <span class="text-muted">: <%-ticket.title%></span>
+    </h2>
+    <div class="row">
+      <!-- start ticket details -->
+      <div class="col-lg-7">
+        <div class="card mb-3 shadow">
+          <div class="card-header btn-theme-dark">
+            <span class="float-start text-white fs-5"
+              >Created: <%-formatDate(ticket.createdAt)%>
+            </span>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">Ticket Details</h4>
+            <dl>
+              <dt>Description</dt>
+              <dd class="ms-3"><%-ticket.ticketDescription%></dd>
+            </dl>
+            <div class="row">
+              <div class="col-md-4">
+                <span>Ticket Type: </span>
+                <span class="badge btn-theme-dark">
+                  <%-ticket.ticketType.name%>
+                </span>
               </div>
-           </div>
-           <!-- end ticket details -->
-
-           <!-- start ticket attachement -->
-           <div class="col-lg-5">
-              <div class="card">
-                 <div class="card-header bg-secondary">
-                  <h5 class="card-title text-white">Ticket Attachments</h5>
-                 </div>
-                 <div class="card-body">
-                    <div class="mb-3">
-                      <label for="attachDescription" class="form-label">Description</label>
-                      <textarea class="form-control" name="" id="" rows="3"></textarea>
-                    </div>
-                    <div class="mb-3">
-                      <label class="custom-file">
-                        <input type="file" name="" id="" placeholder="" class="custom-file-input" aria-describedby="fileHelpId"/>
-                        <span class="custom-file-control"></span>
-                      </label>
-                    </div>
-                 </div>
+              <div class="col-md-4">
+                <span>Ticket Status: </span>
+                <span class="badge btn-theme-dark">
+                  <%-ticket.ticketStatus.name%>
+                </span>
               </div>
-           </div>
-           <!-- end ticket attachement -->
+              <div class="col-md-4">
+                <span>Ticket Priority: </span>
+                <span class="badge btn-theme-dark">
+                  <%-ticket.ticketPriority.name%>
+                </span>
+              </div>
+            </div>
+            <dl class="mt-4">
+              <dt>Ticket Assignee:</dt>
+              <% if (assignedDeveloper.developer !== null) { %>
+              <dd>
+                <%- formatName(assignedDeveloper.developer.first_name, assignedDeveloper.developer.last_name) %>
+              </dd>
+              <% }else{ %>
+              <dd>Unassigned</dd>
+              <% } %>
+            </dl>
+            <label for="developer" className="form-label"
+              >Assign ticket to:</label
+            >
+            <form action="/dashboard/ticket/assign/developer" method="POST">
+              <select
+                name="developer"
+                id="developer"
+                className="form-control"
+                required
+              >
+                <option value="">Select Assignee</option>
+                <% developer.forEach(dev => { %>
+                <option value="<%-dev.id%>"><%-dev.first_name%></option>
+                <% }) %>
+              </select>
+              <input type="hidden" value="<%-ticket.id%>" name="ticketId" />
+              <button class="btn btn-theme-dark">Assign ticket</button>
+            </form>
+          </div>
         </div>
+      </div>
+      <!-- end ticket details -->
 
+      <!-- start ticket attachement -->
+      <div class="col-lg-5">
+        <div class="card">
+          <div class="card-header btn-theme-dark">
+            <span class="float-start text-white fs-5">Ticket History </span>
+          </div>
+          <div class="card-body">
+            <% ticketHistory.forEach(history => { %>
+            <div class="card p-2">
+              <p>
+                <%- history.title %> :
+                <span class="text-muted"><%- history.description %></span>
+              </p>
+              <span class="text-muted">
+                Edited by : <%- formatName(history.user.first_name, history.user.last_name) %><br />
+                Date : <%- formatDate(history.createdAt) %>
+              </span>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+      <!-- end ticket attachement -->
+    </div>
 
-        <!-- start ticket comment -->
-        <div class="row my-5">
-           <div class="col-lg-7">
-              <div class="card">
-                 <div class="card-header bg-secondary">
-                    <h3 class='text-white'>Ticket Comment</h3>
-                 </div>
-                 <div class="card-body">
-                    <form action="/dashboard/ticket/comment/new" method="POST">
-                       <div class="mb-3">
-                          <label for="comment" class="form-label">Add Comment</label>
-                          <textarea class="form-control" name="comment" id="comment" rows="3"></textarea>
-                       </div>
-                       <input type="hidden" value="<%-ticket.id%>" name="ticketId">
-                       <div class="d-grid gap-2">
-                          <button type="submit" class="btn btn-primary">Submit</button>
-                       </div>
-                    </form>
-                 </div>
-                 <div class="card-footer">
-                    <div class="container">
-                       <div class="row">
-                        <% comments.forEach(comment => { %>
-                           <div class="card p-2">
-                              <p><%- comment.comment %> </p>
-                              <span class="text-muted">
-                                by : <%- comment.user.first_name %> <%- comment.user.last_name %><br>
-                                on : <%- comment.createdAt %>
-                              </span>
-                           </div>
-                        <% }) %>
-                       </div>
-                    </div>
-                 </div>
+    <!-- start ticket comment -->
+    <div class="row my-5">
+      <div class="col-lg-7">
+        <div class="card">
+        <div class="card-header btn-theme-dark">
+            <span class="float-start text-white fs-5">Comments</span>
+          </div>
+          <div class="card-body">
+            <form action="/dashboard/ticket/comment/new" method="POST">
+              <div class="mb-3">
+                <label for="comment" class="form-label">Add Comment</label>
+                <textarea
+                  class="form-control"
+                  name="comment"
+                  id="comment"
+                  rows="3"
+                ></textarea>
               </div>
-           </div>
-           <!-- end ticket comment -->
-
-           <!-- start ticket history -->
-           <div class="col-lg-5">
-              <div class="card">
-                 <div class="card-header bg-secondary">
-                    <h3 class="text-white">Ticket History</h3>
-                 </div>
-                 <div class="card-body">
-                  <% ticketHistory.forEach(history => { %>
-                     <div class="card p-2">
-                        <p><%- history.title %> : <span class="text-muted"><%- history.description %></span></p>
-                        <span class="text-muted">
-                           by : <%- history.user.first_name %> <%- history.user.last_name %><br>
-                           on : <%- history.createdAt %>
-                        </span>
-                     </div>
-                  <% }) %>
-                 </div>
+              <input type="hidden" value="<%-ticket.id%>" name="ticketId" />
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-theme-dark">Submit</button>
               </div>
-           </div>
-           <!-- end ticket history -->
-        </div> 
-      
-     </div>
+            </form>
+          </div>
+          <div class="card-footer">
+            <div class="container mt-2">
+              <div class="row">
+                <% comments.forEach(comment => { %>
+                <div class="card p-2 mb-3">
+                  <p><%- comment.comment %></p>
+                  <span class="text-muted">
+                    Added by : <%- formatName(comment.user.first_name, comment.user.last_name) %><br />
+                    Date : <%- formatDate(comment.createdAt) %>
+                  </span>
+                </div>
+                <% }) %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end ticket comment -->
+
+      <!-- start ticket history -->
+
+      <!-- end ticket history -->
+    </div>
+  </div>
 </div>

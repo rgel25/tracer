@@ -32,6 +32,8 @@ const userRoutes = require("./routes/user");
 const { alreadyLoggedIn } = require("./middlewares/middleware");
 // REQUIRE HELPERS
 const { rolePrint, formatName, formatDate } = require("./utils/helpers");
+// REQUIRE SESSION STORE
+const MongoStore = require("connect-mongo");
 // --------------------- END OF IMPORTS ---------------------
 
 // --------------------- START OF TEMPLATING TOOLS ---------------------
@@ -57,23 +59,23 @@ app.use(express.static(path.join(__dirname, "public")));
 // DEFINE A SECRET PHRASE FOR SESSION CONFIG
 const secret = process.env.SECRET || "thisshouldbeabettersecret";
 // STORE STRATEGY FOR EXPRESS SESSION
-// const store = MongoStore.create({
-//   mongoUrl: dbUrl,
-//   touchAfter: 24 * 60 * 60,
-//   crypto: {
-//     secret,
-//   },
-// });
+const store = MongoStore.create({
+  mongoUrl: process.env.MONGODB_URL,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret,
+  },
+});
 
-// store.on("error", (e) => {
-//   console.log("Session Store Error!", e);
-// });
+store.on("error", (e) => {
+  console.log("Session Store Error!", e);
+});
 
 // SESSION CONFIGURATION
 // SOME PROPERTIES ARE COMMENTED DUE TO STORE BEING UNDEFINED FOR NOW
 const sessionConfig = {
-  //   store,
-  //   name: "session",
+  store,
+  name: "session",
   secret,
   resave: false,
   // secure: true,
