@@ -19,17 +19,19 @@
                         </div>
                         <div class="col">
                           <% if(assignedManager.manager != null) { %>
-                            <p><%= assignedManager.manager.first_name %></p>
+                            <p><%= formatName(assignedManager.manager.first_name) %> <%= formatName(assignedManager.manager.last_name) %></p>
                           <% } else { %>
                             <p>Unassigned</p>
                           <% }  %> 
                         </div>
                       </div>
-                      <div class="row mb-2">
+                      <% if(currentUser.userRoleRefId === "ur1" || currentUser.userRoleRefId === "ur2"){ %> 
+                      <div class="row my-3">
                         <button class="btn btn-theme-dark btn-sm" data-bs-toggle="modal" data-bs-target="#modalId">
                           Assign Manager
                         </button>
                       </div>
+                      <% } %> 
                       <div class="row">
                         <div class="col">
                           <b>Description:</b>  
@@ -43,7 +45,7 @@
                           <b>Start Date:</b>  
                         </div>
                         <div class="col">
-                          <p> <%= projects.project_start %></p>
+                          <p> <%= formatDate(projects.project_start) %></p>
                         </div>
                       </div>
                       <div class="row">
@@ -51,7 +53,7 @@
                           <b>Deadline:</b>  
                         </div>
                         <div class="col">
-                          <p> <%= projects.project_end %></p>
+                          <p> <%= formatDate(projects.project_end) %></p>
                         </div>
                       </div>
                       <div class="row">
@@ -59,11 +61,11 @@
                           <b>Priority: </b>  
                         </div>
                         <div class="col">
-                          <% if (projects.projectPriority.name === 'Urgent') { %>
+                          <% if (projects.projectPriority.name === 'P1 - Urgent') { %>
                             <span class="badge bg-danger p-2 px-4" ><%= projects.projectPriority.name %></span>
-                          <% } else if (projects.projectPriority.name === 'High') { %> 
+                          <% } else if (projects.projectPriority.name === 'P2 - High') { %> 
                             <span class="badge bg-warning p-2 px-4" ><%= projects.projectPriority.name %></span>
-                          <% } else if (projects.projectPriority.name === 'Medium') { %> 
+                          <% } else if (projects.projectPriority.name === 'P3 - Medium') { %> 
                             <span class="badge bg-primary p-2 px-4" ><%= projects.projectPriority.name %></span>
                           <% } else { %> 
                             <span class="badge bg-success p-2 px-4" ><%= projects.projectPriority.name %></span>
@@ -177,7 +179,7 @@
               <select class="form-select" name="projectManager" id="projectManager" required>
                 <option value="">Select Manager</option>
                 <% manager.forEach(man => { %>
-                  <option value="<%- man.id %>"><%- man.first_name %> <%- man.last_name %></option>
+                  <option value="<%- man.id %>"><%- formatName(man.first_name) %> <%- formatName(man.last_name) %></option>
                 <% })  %> 
               </select>
               <input type="hidden" name="projectId" value="<%- projects.id %>">

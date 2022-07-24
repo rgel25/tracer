@@ -69,6 +69,7 @@
       </a>
     </li>
     <% } %>
+    <% if(currentUser.userRoleRefId !== "ur4") {%> 
     <li class="mb-1 nav-item">
       <button
         class="btn btn-toggle align-items-center rounded nav-link-with-logo text-white btn-toggle-side"
@@ -99,6 +100,7 @@
               >All Projects</a
             >
           </li>
+          <% if(currentUser.userRoleRefId === "ur1" || currentUser.userRoleRefId === "ur2"){ %> 
           <li class="mx-4 my-1">
             <a
               href="/dashboard/projects/new"
@@ -111,6 +113,7 @@
               >My Projects</a
             >
           </li>
+          <% } %>
           <li class="mx-4 my-1">
             <a
               href="/dashboard/projects/archive"
@@ -121,6 +124,7 @@
         </ul>
       </div>
     </li>
+    <% } %>
     <li class="mb-1 nav-item">
       <button
         class="btn btn-toggle align-items-center rounded nav-link-with-logo text-white btn-toggle-side"

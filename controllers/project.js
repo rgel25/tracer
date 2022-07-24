@@ -5,12 +5,12 @@ const { Op } = require("sequelize");
 ////////////////////////////////////////////////////////////////////////////////////////// Get All Projects
 module.exports.projects = async (req, res) => {
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-  // const user = req.user;
+    const currentUser = req.user;
   // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-    };
+    // const user = {
+    //     first_name: "argel",
+    //     last_name: "miralles",
+    // };
     const projects = await db.project.findAll({
     include: [
         db.ticket,
@@ -25,34 +25,23 @@ module.exports.projects = async (req, res) => {
             }
         }
     })
-    return res.render("pages/project/index", { user , projects })
-    // .then(projects => {
-    // return res.render("pages/project/index", { user , projects })
-    // })
+    return res.render("pages/project/index", { currentUser , projects })
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////// Get | New project form 
 module.exports.renderNewProjectForm = (req, res) => {
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
+    const currentUser = req.user;
     // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-    };
-    return res.render("pages/project/newProject", {user})
+    // const user = {
+    //     first_name: "argel",
+    //     last_name: "miralles",
+    // };
+    return res.render("pages/project/newProject", {currentUser})
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////// Post | New project
 module.exports.newProject = async (req, res) => {
-    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-    };
-
     const {project_name, project_description, project_start, project_end, projectPriorityRefId} = req.body;
     const errors = [];
 
@@ -99,31 +88,24 @@ module.exports.newProject = async (req, res) => {
 module.exports.renderUpdateProjectForm = (req, res) => {
     const { id } = req.params;
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
+    const currentUser = req.user;
     // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-    };
+    // const user = {
+    //     first_name: "argel",
+    //     last_name: "miralles",
+    // };
     db.project.findAll({
         where: {
             id: id
         }
     }).then(projects => {
-        return res.render("pages/project/updateProject",  { user , projects });
+        return res.render("pages/project/updateProject",  { currentUser , projects });
 })
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////// PUT | Update Project
 module.exports.updateProject = async (req,res) => {
     const { id } = req.params;
-    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-    };
 
     await db.project.update({
         project_name: req.body.project_name,
@@ -144,13 +126,6 @@ module.exports.updateProject = async (req,res) => {
 ////////////////////////////////////////////////////////////////////////////////////////// delete | delete project
 module.exports.deleteProject = async (req,res) => {
     const { id } = req.params;
-    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-    };
 
     await db.project.destroy({
         where: {
@@ -167,13 +142,13 @@ module.exports.deleteProject = async (req,res) => {
 module.exports.viewProject = async (req, res) => {
     const { id } = req.params;
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
+    const currentUser = req.user;
     // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-        userId : 1
-    };
+    // const user = {
+    //     first_name: "argel",
+    //     last_name: "miralles",
+    //     userId : 1
+    // };
 
     // get assigned manager
     const assignedManager = await db.project.findOne({ 
@@ -185,7 +160,6 @@ module.exports.viewProject = async (req, res) => {
         
     });
 
-    console.log(assignedManager);
     // Get every developer who is not assigned to this ticket.
     const manager = await db.user.findAll({
         where : {
@@ -228,7 +202,7 @@ module.exports.viewProject = async (req, res) => {
             id: id,
         }
     }).then(projects => {
-        return res.render("pages/project/viewProject",  { user , projects , manager , assignedManager});
+        return res.render("pages/project/viewProject",  { currentUser , projects , manager , assignedManager});
 })
 }
 
@@ -236,12 +210,12 @@ module.exports.viewProject = async (req, res) => {
 ////////////////////////////////////////////////////////////////////////////////////////// get all project archived
 module.exports.archivedProjects = async (req, res) => {
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-  // const user = req.user;
+    const currentUser = req.user;
   // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-    };
+    // const user = {
+    //     first_name: "argel",
+    //     last_name: "miralles",
+    // };
     const projects = await db.project.findAll({
     include: [
         db.ticket,
@@ -254,20 +228,13 @@ module.exports.archivedProjects = async (req, res) => {
             projectStatusRefId: "ps3"
         }
     })
-    return res.render("pages/project/archivedProject", { user , projects })
+    return res.render("pages/project/archivedProject", { currentUser , projects })
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////// archive specific project
 
 module.exports.archiveProject = async (req,res) => {
     const { id } = req.params;
-    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-    };
 
     await db.project.update({
         projectStatusRefId: "ps3"
@@ -283,14 +250,6 @@ module.exports.archiveProject = async (req,res) => {
 /////////////////////////////////////////////////////////////////////////////////////////////////// assign project manager
 
 module.exports.assignProjectManager = async (req,res) => {
-    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
-    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-    };
-
     await db.project.update({
         managerId : req.body.projectManager
     }, {
@@ -306,14 +265,13 @@ module.exports.assignProjectManager = async (req,res) => {
 
 module.exports.renderMyProjectPage = async (req, res) => {
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
-    // const user = req.user;
+    const currentUser = req.user;
     // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
-    const user = {
-        first_name: "argel",
-        last_name: "miralles",
-        userId: 1
-    };
-
+    // const user = {
+    //     first_name: "argel",
+    //     last_name: "miralles",
+    //     userId: 1
+    // };
     const projects = await db.project.findAll({
         include: [
             db.ticket,
@@ -323,11 +281,11 @@ module.exports.renderMyProjectPage = async (req, res) => {
             }
         ],
             where: {
-                managerId : user.userId,
+                managerId : currentUser.id,
                 projectStatusRefId : {
                     [Op.not] : 'ps3'
                 }
             }
         })
-        return res.render("pages/project/myProject", { user , projects })
+        return res.render("pages/project/myProject", { currentUser , projects })
 }

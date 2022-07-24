@@ -22,20 +22,24 @@
                     <th>End Date</th>
                     <th>Priority</th>
                     <th class='col-1 text-center'>Ticket Count</th>
+                    <% if(currentUser.userRoleRefId === "ur1" ){ %> 
                     <th class='col-2 text-center'>Details</th>
+                    <% } %> 
                 </tr>
             </thead>
             <tbody >
                 <% projects.forEach(proj => { %>
                   <tr>
                     <td><a href="/dashboard/projects/<%= proj.id %>/view" class="text-decoration-none text-dark"><%= proj.project_name %></a></td>
-                    <td><%= proj.project_start %> </td>
-                    <td><%= proj.project_end %> </td>
+                    <td><%= formatDate(proj.project_start) %> </td>
+                    <td><%= formatDate(proj.project_end) %> </td>
                     <td><%= proj.projectPriority.name %> </td>
                     <td class='text-center'><%= proj.tickets.length %></td>
-                    <td class='text-center'>    
-                      <a data-bs-toggle="modal" data-bs-target="#deleteModalProjectID<%=proj.id%>"><i class="bi bi-trash3-fill text-danger fs-4 pe-1" id="deleteButton"></i></a>
-                  </td>
+                    <% if(currentUser.userRoleRefId === "ur1" ){ %> 
+                      <td class='text-center'>    
+                        <a data-bs-toggle="modal" data-bs-target="#deleteModalProjectID<%=proj.id%>"><i class="bi bi-trash3-fill text-danger fs-4 pe-1" id="deleteButton"></i></a>
+                      </td>
+                    <% } %> 
                   </tr>
 
                   <!-- modal -->

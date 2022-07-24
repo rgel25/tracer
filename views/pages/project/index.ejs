@@ -10,11 +10,13 @@
       <div class="col-6">
           <h4 class=" fw-bold p-2">Projects</h4>
       </div>
+      <% if(currentUser.userRoleRefId === "ur1" || currentUser.userRoleRefId === "ur2"){ %> 
       <div class="col-6 text-end mb-3">
             <a href="/dashboard/projects/new" class="btn btn-theme-dark align-center">
               Add Project 
             </a>
       </div>
+      <% } %> 
     </div>
     <div class="card shadow">
       <div class="card-body">
@@ -34,15 +36,17 @@
                 <% projects.forEach(proj => { %>
                   <tr>
                     <td><a href="/dashboard/projects/<%= proj.id %>/view" class="text-decoration-none text-dark"><%= proj.project_name %></a></td>
-                    <td><%= proj.project_start %> </td>
-                    <td><%= proj.project_end %> </td>
+                    <td><%= formatDate(proj.project_start) %> </td>
+                    <td><%= formatDate(proj.project_end) %> </td>
                     <td><%= proj.projectPriority.name %> </td>
                     <td class='text-center'><%= proj.tickets.length %></td>
-                    <td class='text-center'>    
-                      <a href="/dashboard/projects/<%= proj.id %>/view"><i class="bi bi-eye-fill text-primary fs-4 pe-1"></i></a>
+                    <td class='d-flex no-wrap'>    
+                      <a href="/dashboard/projects/<%= proj.id %>/view"><i class="bi bi-eye-fill text-primary text-center fs-4 pe-1"></i></a>
+                      <% if(currentUser.userRoleRefId === "ur1" || currentUser.userRoleRefId === "ur2"){ %> 
                       <a href="/dashboard/projects/<%= proj.id %>/update"><i class="bi bi-pencil-square text-warning fs-4 pe-1"></i></a>
                       <a data-bs-toggle="modal" data-bs-target="#archiveModalProjectID<%=proj.id%>"><i class="bi bi-trash3-fill text-danger fs-4 pe-1" id="deleteButton"></i></a>
-                  </td>
+                      <% } %> 
+                    </td>
                   </tr>
 
                   <!-- modal -->

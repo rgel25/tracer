@@ -119,7 +119,7 @@ app.use("/dashboard/ticket", ticketRoutes);
 
 // --------------------- START OF HOME PAGE ROUTING ---------------------
 app.get("/", alreadyLoggedIn, (req, res) => {
-  console.log(req.user);
+  // console.log(req.user);
   res.render("pages/landing");
 });
 // --------------------- END OF HOME PAGE ROUTING ---------------------
