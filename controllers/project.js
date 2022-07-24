@@ -1,8 +1,8 @@
 const db = require("../models");
-const router = require("../routes/project");
+const { Op } = require("sequelize");
 
 
-// Get All Projects
+////////////////////////////////////////////////////////////////////////////////////////// Get All Projects
 module.exports.projects = async (req, res) => {
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
   // const user = req.user;
@@ -29,7 +29,7 @@ module.exports.projects = async (req, res) => {
     // })
 };
 
-// Get | New project form 
+////////////////////////////////////////////////////////////////////////////////////////// Get | New project form 
 module.exports.renderNewProjectForm = (req, res) => {
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
     // const user = req.user;
@@ -41,7 +41,7 @@ module.exports.renderNewProjectForm = (req, res) => {
     return res.render("pages/project/newProject", {user})
 }
 
-// Post | New project
+////////////////////////////////////////////////////////////////////////////////////////// Post | New project
 module.exports.newProject = async (req, res) => {
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
     // const user = req.user;
@@ -50,18 +50,50 @@ module.exports.newProject = async (req, res) => {
         first_name: "argel",
         last_name: "miralles",
     };
-    await db.project.create({
-        project_name: req.body.project_name,
-        project_description: req.body.project_description,
-        project_start: req.body.project_start,
-        project_end: req.body.project_end,
-        projectPriorityRefId: req.body.projectPriorityRefId,
-    })
-    return res.redirect("/dashboard/projects");
+
+    const {project_name, project_description, project_start, project_end, projectPriorityRefId} = req.body;
+    const errors = [];
+
+    // Check all Fields
+    if( !project_name || !project_description || !project_start || !project_end || !projectPriorityRefId){
+        errors.push({ errorMsg: "Please fill in all fields."})
+    }
+    // Check Description length
+    if (project_description.length < 10) {
+        errors.push({ errorMsg: "Description should at least be 10 characters." });
+      }
+    // Check Start Date
+    let today = new Date().toISOString().slice(0, 10);
+    if (project_start < today){
+        errors.push({ errorMsg: "Please enter valid start date"})
+    }
+    // Check Start Date
+    if (project_start > project_end){
+        errors.push({ errorMsg: "Please enter valid end date"})
+    }
+
+    if (errors.length > 0){
+        req.flash(
+            "error",
+            errors.map((err) => err.errorMsg)
+          );
+          res.redirect("/dashboard/projects/new");
+    } else {
+        await db.project.create({
+            project_name: req.body.project_name,
+            project_description: req.body.project_description,
+            project_start: req.body.project_start,
+            project_end: req.body.project_end,
+            projectPriorityRefId: req.body.projectPriorityRefId,
+        })
+        req.flash("success", "Project Successfully Created");
+        return res.redirect("/dashboard/projects");
+    }
+
 };
 
 
-// GET | Update Project Form
+//////////////////////////////////////////////////////////////////////////////////////////  GET | Update Project Form
 module.exports.renderUpdateProjectForm = (req, res) => {
     const { id } = req.params;
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
@@ -80,7 +112,7 @@ module.exports.renderUpdateProjectForm = (req, res) => {
 })
 }
 
-// PUT | Update Project
+////////////////////////////////////////////////////////////////////////////////////////// PUT | Update Project
 module.exports.updateProject = async (req,res) => {
     const { id } = req.params;
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
@@ -102,11 +134,12 @@ module.exports.updateProject = async (req,res) => {
             id : id
         }
     });
+    req.flash("success", "Project Updated Successfully");
     return res.redirect(`/dashboard/projects/${id}/view`);
 };
 
 
-//delete | delete project
+////////////////////////////////////////////////////////////////////////////////////////// delete | delete project
 module.exports.deleteProject = async (req,res) => {
     const { id } = req.params;
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
@@ -123,12 +156,13 @@ module.exports.deleteProject = async (req,res) => {
         }
     })
 
-    return res.redirect("/dashboard/projects");
+    req.flash("success", "Project Permanently Deleted");
+    return res.redirect("/dashboard/projects/archive");
 };
 
 
-// Get | View Project 
-module.exports.viewProject = (req, res) => {
+////////////////////////////////////////////////////////////////////////////////////////// Get | View Project 
+module.exports.viewProject = async (req, res) => {
     const { id } = req.params;
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
     // const user = req.user;
@@ -136,7 +170,9 @@ module.exports.viewProject = (req, res) => {
     const user = {
         first_name: "argel",
         last_name: "miralles",
+        userId : 1
     };
+
     db.project.findOne({
         include: [
             { 
@@ -167,13 +203,13 @@ module.exports.viewProject = (req, res) => {
             id: id,
         }
     }).then(projects => {
-        console.log(projects)
+        // console.log(projects)
         return res.render("pages/project/viewProject",  { user , projects });
 })
 }
 
 
-//get all project archived
+////////////////////////////////////////////////////////////////////////////////////////// get all project archived
 module.exports.archivedProjects = async (req, res) => {
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
   // const user = req.user;
@@ -197,7 +233,7 @@ module.exports.archivedProjects = async (req, res) => {
     return res.render("pages/project/archivedProject", { user , projects })
 };
 
-// archive specific project
+////////////////////////////////////////////////////////////////////////////////////////// archive specific project
 
 module.exports.archiveProject = async (req,res) => {
     const { id } = req.params;
@@ -216,5 +252,8 @@ module.exports.archiveProject = async (req,res) => {
             id: id
         }
     });
+    req.flash("success", "Project Archived Successfully");
     return res.redirect("/dashboard/projects");
 }
+
+

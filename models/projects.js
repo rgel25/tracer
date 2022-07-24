@@ -27,15 +27,8 @@ module.exports = (sequelize, DataTypes) => {
            onDelete: "cascade" 
         });
         
-        
     }
 
-    // projectOwner = assigned project manager
-            // default unassigned
-            
-    // projectTeam = assigned team
-    
-    
         
 
 

@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       Ticket.hasMany(models.ticket_history, {
          onDelete : "cascade"
       });
+
    }
 
    
