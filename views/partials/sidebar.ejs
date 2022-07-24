@@ -162,6 +162,7 @@
               >Add Tickets</a
             >
           </li>
+          <% if(currentUser.userRoleRefId === "ur3" || currentUser.userRoleRefId === "ur4"){ %> 
           <li class="mx-4 my-1">
             <a
               href="/dashboard/ticket/myTicket"
@@ -169,9 +170,10 @@
               >My Tickets</a
             >
           </li>
+          <% } %> 
           <li class="mx-4 my-1">
             <a
-              href="/dashboard/ticket/myTicket/archived"
+              href="/dashboard/ticket/archive"
               class="text-white text-decoration-none rounded"
               >Ticket Archive</a
             >

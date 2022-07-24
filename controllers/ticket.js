@@ -327,7 +327,7 @@ module.exports.deleteTicket = async (req, res) => {
         where : { id : ticketId}
     })
     req.flash("success", "One ticket has been successfully removed.!");
-    return res.redirect("/dashboard/ticket/myTicket/archived");
+    return res.redirect("/dashboard/ticket/archive");
 }
 
 //////////////////////////////////////////////////////////////// archive ticket
