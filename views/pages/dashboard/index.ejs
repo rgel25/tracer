@@ -1,10 +1,16 @@
 <%- layout('layout/dashboard') %>
 <div class="p-5">
+  <div class="row">
+    <div class="col-12">
+      <%- include('../../partials/flash')%>
+    </div>
+  </div>
   <div class="row mb-4">
     <div class="col-md-12 col-lg-6">
-      <h3>Welcome, <%= user.first_name %>!</h1>
+      <h3>Welcome, <%= formatName(currentUser.first_name) %>!</h1>
     </div>
     <div class="col-md-12 col-lg-6 text-start text-lg-end">
+      <% if(currentUser.userRoleRefId === "ur1" || currentUser.userRoleRefId === "ur2" ) { %> 
       <a href="#" class="btn btn-theme-dark btn-with-logo my-2 my-md-0">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -20,6 +26,7 @@
           /></svg
         >New Project</a
       >
+      <% } %> 
       <a href="#" class="btn btn-theme-dark btn-with-logo"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
@@ -215,7 +222,7 @@
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Priority</th>
-                <th>Team</th>
+              
                 <th class='col-1 text-center'>Ticket Count</th>
                 
             </tr>
@@ -224,10 +231,10 @@
                 <% projects.forEach(proj => { %>
                   <tr>
                     <td><a href="/dashboard/projects/<%= proj.id %>/view" class="text-decoration-none text-dark"><%= proj.project_name %></a></td>
-                    <td><%= proj.project_start %> </td>
-                    <td><%= proj.project_end %> </td>
+                    <td><%= formatDate(proj.project_start) %> </td>
+                    <td><%= formatDate(proj.project_end) %> </td>
                     <td><%= proj.projectPriority.name %> </td>
-                    <td><i class="bi bi-people fs-4"></i></td>
+                 
                     <td class='text-center'><%= proj.tickets.length %></td>
                  </tr>
                 <% }) %> 

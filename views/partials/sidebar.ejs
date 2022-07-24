@@ -22,8 +22,8 @@
   </div>
   <hr class="border border-1" />
   <div class="container text-center text-white">
-    <%= user.first_name %> <%= user.last_name %>
-    <p class="m-0">Role Placeholder</p>
+    <%= formatName(currentUser.first_name, currentUser.last_name) %>
+    <p class="m-0"><%= rolePrint(currentUser.userRoleRefId) %></p>
   </div>
   <hr class="border border-1" />
   <ul class="nav nav-pills flex-column mb-auto">
@@ -50,6 +50,7 @@
         Dashboard
       </a>
     </li>
+    <% if(currentUser.userRoleRefId==="ur1") { %>
     <li>
       <a href="/dashboard/user" class="nav-link text-white nav-link-with-logo">
         <svg
@@ -67,6 +68,7 @@
         Users
       </a>
     </li>
+    <% } %>
     <li class="mb-1 nav-item">
       <button
         class="btn btn-toggle align-items-center rounded nav-link-with-logo text-white btn-toggle-side"
@@ -105,12 +107,14 @@
             >
           </li>
           <li class="mx-4 my-1">
-            <a href="#" class="text-white text-decoration-none rounded"
+            <a href="/dashboard/projects/myProject" class="text-white text-decoration-none rounded"
               >My Projects</a
             >
           </li>
           <li class="mx-4 my-1">
-            <a href="/dashboard/projects/archive" class="text-white text-decoration-none rounded"
+            <a
+              href="/dashboard/projects/archive"
+              class="text-white text-decoration-none rounded"
               >Project Archive</a
             >
           </li>
@@ -141,22 +145,30 @@
       <div class="collapse" id="tickets-collapse" data-parent="#sidebar">
         <ul class="fw-normal pb-1 text-white">
           <li class="mx-4 my-1">
-            <a href="/dashboard/ticket" class="text-white text-decoration-none rounded"
+            <a
+              href="/dashboard/ticket"
+              class="text-white text-decoration-none rounded"
               >All Tickets</a
             >
           </li>
           <li class="mx-4 my-1">
-            <a href="/dashboard/ticket/addTicket" class="text-white text-decoration-none rounded"
+            <a
+              href="/dashboard/ticket/addTicket"
+              class="text-white text-decoration-none rounded"
               >Add Tickets</a
             >
           </li>
           <li class="mx-4 my-1">
-            <a href="/dashboard/ticket/myTicket" class="text-white text-decoration-none rounded"
+            <a
+              href="/dashboard/ticket/myTicket"
+              class="text-white text-decoration-none rounded"
               >My Tickets</a
             >
           </li>
           <li class="mx-4 my-1">
-            <a href="/dashboard/ticket/myTicket/archived" class="text-white text-decoration-none rounded"
+            <a
+              href="/dashboard/ticket/myTicket/archived"
+              class="text-white text-decoration-none rounded"
               >Ticket Archive</a
             >
           </li>

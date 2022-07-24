@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
         projectStatusRefId : {
             type : DataTypes.STRING,
             defaultValue: 'ps1'
-        }
+        },
+
     });
 
     Project.associate = models => {
@@ -27,15 +28,8 @@ module.exports = (sequelize, DataTypes) => {
            onDelete: "cascade" 
         });
         
-        
     }
 
-    // projectOwner = assigned project manager
-            // default unassigned
-            
-    // projectTeam = assigned team
-    
-    
         
 
 

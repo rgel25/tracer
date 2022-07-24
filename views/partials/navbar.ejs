@@ -40,8 +40,8 @@
       <ul class="dropdown-menu dropdown-menu-start dropdown-menu-sm-end">
         <li>
           <div class="container text-center mt-2">
-            <%= user.first_name %> <%= user.last_name %>
-            <p>Role Placeholder</p>
+            <%= formatName(currentUser.first_name, currentUser.last_name) %>
+            <p><%= rolePrint(currentUser.userRoleRefId) %></p>
           </div>
         </li>
         <hr class="border border-1 border-dark p-0 mb-2" />
