@@ -1,5 +1,6 @@
 const db = require("../models");
 const router = require("../routes/project");
+const { Op } = require("sequelize");
 
 
 // Get All Projects
@@ -128,7 +129,7 @@ module.exports.deleteProject = async (req,res) => {
 
 
 // Get | View Project 
-module.exports.viewProject = (req, res) => {
+module.exports.viewProject = async (req, res) => {
     const { id } = req.params;
     // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
     // const user = req.user;
@@ -137,7 +138,31 @@ module.exports.viewProject = (req, res) => {
         first_name: "argel",
         last_name: "miralles",
     };
-    db.project.findOne({
+
+    // get assigned manager
+    const assignedManager = await db.project.findOne({ 
+        where : { id : id },
+        include : {
+            model : db.user,
+            as : 'manager'
+        }
+        
+    });
+
+    console.log(assignedManager);
+    // Get every developer who is not assigned to this ticket.
+    const manager = await db.user.findAll({
+        where : {
+            id : {
+                [Op.not] : assignedManager.managerId
+            },
+            userRoleRefId : 'ur2'
+        }
+        
+    });
+
+
+    await db.project.findOne({
         include: [
             { 
                 model: db.ticket,
@@ -167,8 +192,7 @@ module.exports.viewProject = (req, res) => {
             id: id,
         }
     }).then(projects => {
-        console.log(projects)
-        return res.render("pages/project/viewProject",  { user , projects });
+        return res.render("pages/project/viewProject",  { user , projects , manager , assignedManager});
 })
 }
 
@@ -218,3 +242,25 @@ module.exports.archiveProject = async (req,res) => {
     });
     return res.redirect("/dashboard/projects");
 }
+
+// assign project manager
+
+module.exports.assignProjectManager = async (req,res) => {
+    // COMMENT THIS OUT IF YOU WANT TO TEST A USER FROM DB
+    // const user = req.user;
+    // USE THIS TO BY PASS LOGIN AND USE A DUMMY USER
+    const user = {
+        first_name: "argel",
+        last_name: "miralles",
+    };
+
+    await db.project.update({
+        managerId : req.body.projectManager
+    }, {
+        where: {
+            id: req.body.projectId
+        }
+    });
+    return res.redirect("/dashboard/projects/1/view");
+}
+
