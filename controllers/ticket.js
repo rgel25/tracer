@@ -368,7 +368,17 @@ module.exports.addComment = async (req, res) => {
 module.exports.assignDeveloper = async (req, res) => {
   const currentUserId = req.user.id;
   const userInfo = await db.user.findOne({ where: { id: req.body.developer } });
-  const userName = userInfo.first_name + " " + userInfo.last_name;
+  const formatName = (...inputs) => {
+    return inputs
+      .map((input) => {
+        return input
+          .split(" ")
+          .map((word) => word[0].toUpperCase() + word.slice(1))
+          .join(" ");
+      })
+      .join(" ");
+  };
+  const userName = formatName(userInfo.first_name, userInfo.last_name);
   const ticketStatus = await db.ticket.findOne({
     where: { id: req.body.ticketId },
   });

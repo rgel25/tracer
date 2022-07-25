@@ -7,7 +7,8 @@
     </h2>
     <div class="row">
       <!-- start ticket details -->
-      <div class="col-lg-7">
+      <div class="row">
+<div class="col-lg-7">
         <div class="card mb-3 shadow">
           <div class="card-header btn-theme-dark">
             <span class="float-start text-white fs-5"
@@ -63,7 +64,7 @@
               >
                 <option value="">Select Assignee</option>
                 <% developer.forEach(dev => { %>
-                <option value="<%-dev.id%>"><%-dev.first_name%></option>
+                <option value="<%-dev.id%>"><%-formatName(dev.first_name, dev.last_name)%></option>
                 <% }) %>
               </select>
               <input type="hidden" value="<%-ticket.id%>" name="ticketId" />
@@ -73,34 +74,9 @@
         </div>
       </div>
       <!-- end ticket details -->
-
-      <!-- start ticket attachement -->
-      <div class="col-lg-5">
-        <div class="card">
-          <div class="card-header btn-theme-dark">
-            <span class="float-start text-white fs-5">Ticket History </span>
-          </div>
-          <div class="card-body">
-            <% ticketHistory.forEach(history => { %>
-            <div class="card p-2">
-              <p>
-                <%- history.title %> :
-                <span class="text-muted"><%- history.description %></span>
-              </p>
-              <span class="text-muted">
-                Edited by : <%- formatName(history.user.first_name,
-                history.user.last_name) %><br />
-                Date : <%- formatDate(history.createdAt) %>
-              </span>
-            </div>
-            <% }) %>
-          </div>
-        </div>
       </div>
-      <!-- end ticket attachement -->
-    </div>
-
-    <!-- start ticket comment -->
+      <div class="row">
+        <!-- start ticket comment -->
     <div class="row my-5">
       <div class="col-lg-7">
         <div class="card">
@@ -108,7 +84,7 @@
             <span class="float-start text-white fs-5">Comments</span>
           </div>
           <div class="card-body">
-            <form action="/dashboard/ticket/comment/new" method="POST">
+            <form action="/dashboard/ticket/comment/new" method="POST" class="needs-validation" novalidate>
               <div class="mb-3">
                 <label for="comment" class="form-label">Add Comment</label>
                 <textarea
@@ -116,6 +92,7 @@
                   name="comment"
                   id="comment"
                   rows="3"
+                  required
                 ></textarea>
               </div>
               <input type="hidden" value="<%-ticket.id%>" name="ticketId" />
@@ -144,9 +121,41 @@
       </div>
       <!-- end ticket comment -->
 
+      </div>
+      
+
+      <!-- start ticket history -->
+      <div class="col-lg-5">
+        <div class="card">
+          <div class="card-header btn-theme-dark">
+            <span class="float-start text-white fs-5">Ticket History </span>
+          </div>
+          <div class="card-body">
+            <% ticketHistory.forEach(history => { %>
+            <div class="card p-2 mb-2">
+              <p>
+                <%- history.title %> :
+                <span class="text-muted"><%- history.description %></span>
+              </p>
+              <span class="text-muted">
+                Edited by : <%- formatName(history.user.first_name,
+                history.user.last_name) %><br />
+                Date : <%- formatDate(history.createdAt) %>
+              </span>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+      <!-- end ticket history -->
+    </div>
+
+    
+
       <!-- start ticket history -->
 
       <!-- end ticket history -->
     </div>
   </div>
 </div>
+<script src="/js/validateForms.js"></script>
