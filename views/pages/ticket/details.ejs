@@ -18,7 +18,7 @@
             <h4 class="card-title">Ticket Details</h4>
             <dl>
               <dt>Description</dt>
-              <dd class="ms-3"><%-ticket.ticketDescription%></dd>
+              <dd class="ms-3"><%-ticket.description%></dd>
             </dl>
             <div class="row">
               <div class="col-md-4">
@@ -44,7 +44,8 @@
               <dt>Ticket Assignee:</dt>
               <% if (assignedDeveloper.developer !== null) { %>
               <dd>
-                <%- formatName(assignedDeveloper.developer.first_name, assignedDeveloper.developer.last_name) %>
+                <%- formatName(assignedDeveloper.developer.first_name,
+                assignedDeveloper.developer.last_name) %>
               </dd>
               <% }else{ %>
               <dd>Unassigned</dd>
@@ -87,7 +88,8 @@
                 <span class="text-muted"><%- history.description %></span>
               </p>
               <span class="text-muted">
-                Edited by : <%- formatName(history.user.first_name, history.user.last_name) %><br />
+                Edited by : <%- formatName(history.user.first_name,
+                history.user.last_name) %><br />
                 Date : <%- formatDate(history.createdAt) %>
               </span>
             </div>
@@ -102,7 +104,7 @@
     <div class="row my-5">
       <div class="col-lg-7">
         <div class="card">
-        <div class="card-header btn-theme-dark">
+          <div class="card-header btn-theme-dark">
             <span class="float-start text-white fs-5">Comments</span>
           </div>
           <div class="card-body">
@@ -129,7 +131,8 @@
                 <div class="card p-2 mb-3">
                   <p><%- comment.comment %></p>
                   <span class="text-muted">
-                    Added by : <%- formatName(comment.user.first_name, comment.user.last_name) %><br />
+                    Added by : <%- formatName(comment.user.first_name,
+                    comment.user.last_name) %><br />
                     Date : <%- formatDate(comment.createdAt) %>
                   </span>
                 </div>

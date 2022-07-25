@@ -153,7 +153,7 @@ module.exports.addTicket = async (req, res) => {
       ticketPriorityRefId: req.body.ticketPriority,
       userId: currentUserId,
     });
-    req.flash("success", "One ticket successfully added.!");
+    req.flash("success", "Ticket successfully created!");
     return res.redirect("/dashboard/ticket");
   }
 };
@@ -325,7 +325,7 @@ module.exports.updateTicket = async (req, res) => {
       },
     }
   );
-  req.flash("success", "One ticket has been updated successfully.!");
+  req.flash("success", "The ticket was updated successfully!");
   return res.redirect("/dashboard/ticket");
 };
 
@@ -335,7 +335,7 @@ module.exports.deleteTicket = async (req, res) => {
   await db.ticket.destroy({
     where: { id: ticketId },
   });
-  req.flash("success", "One ticket has been successfully removed.!");
+  req.flash("success", "The ticket was deleted successfully!");
   return res.redirect("/dashboard/ticket/archive");
 };
 

@@ -85,28 +85,21 @@ const config2 = {
 };
 const chart2 = new Chart(document.getElementById("chart2"), config2);
 
-const maintenanceTickets = tickets.filter(
+const blockerTickets = tickets.filter(
   (t) => t.ticketType.ref_id === "tt1"
 ).length;
 const uiTickets = tickets.filter((t) => t.ticketType.ref_id === "tt2").length;
-const runtimeTickets = tickets.filter(
-  (t) => t.ticketType.ref_id === "tt3"
-).length;
-const newdevelopmentTickets = tickets.filter(
+const bugTickets = tickets.filter((t) => t.ticketType.ref_id === "tt3").length;
+const newfeatureTickets = tickets.filter(
   (t) => t.ticketType.ref_id === "tt4"
 ).length;
 
 const data3 = {
-  labels: ["Maintenance", "UI", "Runtime", "New Development"],
+  labels: ["Blocker", "UI/UX", "Bug", "New Feature"],
   datasets: [
     {
       label: "Ticket by type",
-      data: [
-        maintenanceTickets,
-        uiTickets,
-        runtimeTickets,
-        newdevelopmentTickets,
-      ],
+      data: [blockerTickets, uiTickets, bugTickets, newfeatureTickets],
       backgroundColor: colors,
       hoverOffset: 4,
     },
